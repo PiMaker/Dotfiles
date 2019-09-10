@@ -47,7 +47,6 @@ Plug 'Raimondi/delimitMate'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
 Plug 'ycm-core/YouCompleteMe'
-Plug 'flrnprz/candid.vim'
 Plug 'lithammer/vim-eighties'
 
 call plug#end()
@@ -167,13 +166,7 @@ let g:CommandTSuppressMaxFilesWarning = 1
 
 " Auto-nohlsearch
 set hlsearch
-let g:incsearch#auto_nohlsearch = 1
-map n  <Plug>(incsearch-nohl-n)
-map N  <Plug>(incsearch-nohl-N)
-map *  <Plug>(incsearch-nohl-*)
-map #  <Plug>(incsearch-nohl-#)
-map g* <Plug>(incsearch-nohl-g*)
-map g# <Plug>(incsearch-nohl-g#)
+nnoremap <silent> <Esc> :<C-u>nohlsearch<CR>
 
 " Highlight trailing whitespace
 highlight ExtraWhite ctermbg=darkred guibg=lightred
