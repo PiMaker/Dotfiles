@@ -177,7 +177,7 @@ map g# <Plug>(incsearch-nohl-g#)
 
 " Highlight trailing whitespace
 highlight ExtraWhite ctermbg=darkred guibg=lightred
-autocmd Syntax * syn match ExtraWhite /\s\+$/
+autocmd Syntax * syn match ExtraWhite /\s\+$/ containedin=ALL
 autocmd colorscheme * highlight ExtraWhite ctermbg=darkred guibg=lightred
 
 " No beeps plz

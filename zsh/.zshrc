@@ -51,5 +51,6 @@ if [ "$(tty)" = "/dev/tty1" ]; then
     echo "-> startx or sway ready!"
 else
     neofetch
+    tput cuu 1
 fi
 

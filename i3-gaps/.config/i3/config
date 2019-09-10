@@ -241,6 +241,7 @@ exec_always --no-startup-id sh -c 'killall polybar; polybar main'
 exec_always --no-startup-id xset m 0 0
 exec_always --no-startup-id solaar config 1 dpi 2000
 exec_always --no-startup-id greenclip daemon
+exec_always --no-startup-id setxkbmap -option caps:escape
 
 # Theme colors
 client.focused #d9d6ca #1c1c22 #d9d6ca #5c828d #5c828d
@@ -252,44 +253,8 @@ client.placeholder #d9d6ca #1c1c22 #d9d6ca #3e646f #3e646f
 client.background #1c1c22
 
 # Gaps
-gaps inner 5
-gaps outer -4
+gaps inner 0
+gaps outer 0
 
-smart_gaps on
+# smart_gaps off
 
-# Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
-set $mode_gaps Gaps: (o) outer, (i) inner
-set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
-set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
-bindsym $mod+Shift+g mode "$mode_gaps"
-
-mode "$mode_gaps" {
-        bindsym o      mode "$mode_gaps_outer"
-        bindsym i      mode "$mode_gaps_inner"
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
-mode "$mode_gaps_inner" {
-        bindsym plus  gaps inner current plus 5
-        bindsym minus gaps inner current minus 5
-        bindsym 0     gaps inner current set 0
-
-        bindsym Shift+plus  gaps inner all plus 5
-        bindsym Shift+minus gaps inner all minus 5
-        bindsym Shift+0     gaps inner all set 0
-
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
-mode "$mode_gaps_outer" {
-        bindsym plus  gaps outer current plus 5
-        bindsym minus gaps outer current minus 5
-        bindsym 0     gaps outer current set 0
-
-        bindsym Shift+plus  gaps outer all plus 5
-        bindsym Shift+minus gaps outer all minus 5
-        bindsym Shift+0     gaps outer all set 0
-
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
