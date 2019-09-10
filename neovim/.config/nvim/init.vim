@@ -112,7 +112,11 @@ vnoremap < <Nop>
 nnoremap > <Nop>
 vnoremap > <Nop>
 
+" Disable weird command window when quickly pressing q: instead of :q
+nnoremap q: :
 
+
+" Better indent controls
 function! InsertIndented()
     let l:line=getline('.')
     if (l:line=='')
