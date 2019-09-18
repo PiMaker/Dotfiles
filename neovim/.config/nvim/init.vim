@@ -88,11 +88,15 @@ inoremap <c-s> <esc>:w<CR>
 " Ctrl-c copies in visual mode
 vnoremap <c-c> "+y
 
-" Ctrl+hjkl moves split focus
+" Ctrl+hjkl/Alt-arrowkeys moves split focus
 nnoremap <c-h> <c-w>h
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
+nnoremap <A-Left> <c-w>h
+nnoremap <A-Down> <c-w>j
+nnoremap <A-Up> <c-w>k
+nnoremap <A-Right> <c-w>l
 
 " Navigate through buffers
 nnoremap gn :bn<cr>
@@ -124,13 +128,19 @@ vnoremap < <Nop>
 nnoremap > <Nop>
 vnoremap > <Nop>
 
+" Scroll up/down without moving cursor
+nnoremap <C-Up> <C-y>
+inoremap <C-Up> <C-o><C-y>
+nnoremap <C-Down> <C-e>
+inoremap <C-Down> <C-o><C-e>
+
 " Move lines up/down
-nnoremap <C-Down> :m .+1<CR>==
-nnoremap <C-Up> :m .-2<CR>==
-inoremap <C-Down> <Esc>:m .+1<CR>==gi
-inoremap <C-Up> <Esc>:m .-2<CR>==gi
-vnoremap <C-Down> :m '>+1<CR>gv=gv
-vnoremap <C-Up> :m '<-2<CR>gv=gv
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
 
 " Disable weird command window when quickly pressing q: instead of :q
 nnoremap q: :
