@@ -23,7 +23,8 @@ set sidescroll=1
 set noswapfile                 " Disable swap files (I like to live dangerously)
 set nobackup
 set nowb
-set visualbell	               " No beeps plz
+set visualbell                 " No beeps plz
+set list                       " Visualize spaces/tabs
 
 
 " Plug config (Plugin list)
