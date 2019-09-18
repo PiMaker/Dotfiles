@@ -33,7 +33,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-sensible'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'pablopunk/native-sidebar.vim'
+" Plug 'pablopunk/native-sidebar.vim'
+Plug 'scrooloose/nerdtree'
 Plug 'haya14busa/incsearch.vim'
 Plug 'luochen1990/rainbow'
 Plug 'sheerun/vim-polyglot'
@@ -63,6 +64,13 @@ nmap <silent> <C-p> <Plug>(CommandT)
 
 " Ripgrep
 nmap ; :Rg<Space>
+
+" Nerdtree
+map <F2> :NERDTreeToggle<CR>
+let NERDTreeWinSize=32
+let NERDTreeWinPos="left"
+let NERDTreeShowHidden=1
+let NERDTreeAutoDeleteBuffer=1
 
 " Go to definition
 nnoremap gd g]1<CR>
