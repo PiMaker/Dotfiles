@@ -48,6 +48,7 @@ export TERM=xterm-termite
 
 if [ "$(tty)" = "/dev/tty1" ]; then
     #startx
+    toilet -f bigmono9 -F metal Welcome \\o/
     echo "-> startx or sway ready!"
 else
     neofetch

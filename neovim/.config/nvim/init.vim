@@ -23,6 +23,7 @@ set sidescroll=1
 set noswapfile                 " Disable swap files (I like to live dangerously)
 set nobackup
 set nowb
+set visualbell	               " No beeps plz
 
 
 " Plug config (Plugin list)
@@ -43,6 +44,7 @@ Plug 'tpope/vim-commentary'
 Plug 'pablopunk/persistent-undo.vim'
 Plug 'godlygeek/tabular'
 Plug 'wincent/command-t'
+Plug 'jremmen/vim-ripgrep'
 Plug 'Raimondi/delimitMate'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
@@ -52,12 +54,15 @@ Plug 'lithammer/vim-eighties'
 call plug#end()
 
 
+" Remap leader key
+let mapleader = "\<space>"
+
 " Command T binding
 nmap <silent> <leader><t> <Plug>(CommandT)
 nmap <silent> <C-p> <Plug>(CommandT)
 
-" Remap leader key
-let mapleader = "\<space>"
+" Ripgrep
+nmap ; :Rg<Space>
 
 " Go to definition
 nnoremap gd g]1<CR>
@@ -167,6 +172,10 @@ set colorcolumn=80
 set textwidth=80
 execute "set colorcolumn=" . join(range(81,400), ',')
 
+" Don't auto-insert comment header on newline, and don't wrap lines
+" that were over-long when insert mode started
+au FileType * set fo+=l fo-=r fo-=o
+
 " Command-T search config
 let g:CommandTFileScanner = "find"
 let g:CommandTMaxFiles = 250000
@@ -180,9 +189,6 @@ nnoremap <silent> <Esc> :<C-u>nohlsearch<CR>
 highlight ExtraWhite ctermbg=darkred guibg=lightred
 autocmd Syntax * syn match ExtraWhite /\s\+$/ containedin=ALL
 autocmd colorscheme * highlight ExtraWhite ctermbg=darkred guibg=lightred
-
-" No beeps plz
-set visualbell
 
 " Include local config
 runtime local.vim

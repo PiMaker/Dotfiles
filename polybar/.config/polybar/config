@@ -88,12 +88,12 @@ scroll-down = ~/.config/polybar/pulseaudio-rofi.sh --volume_source_down
 [module/bright1]
 type = custom/text
 content = 🌕
-click-left = sudo ddcutil setvcp 10 25
+click-left = sudo ddcutil setvcp 10 20
 
 [module/bright2]
 type = custom/text
 content = 🌓
-click-left = sudo ddcutil setvcp 10 46
+click-left = sudo ddcutil setvcp 10 42
 
 [module/bright3]
 type = custom/text
