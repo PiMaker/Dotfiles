@@ -17,14 +17,15 @@ set autoread                   " Re-read files if unmodified
 set linebreak                  " Avoid wrapping lines in the middle of a word.
 set number                     " Line numbers
 set expandtab shiftround smartindent autoindent
-set scrolloff=4                " Start scrolling when we're 8 lines away from margins
+set scrolloff=4                " Start scrolling when we're 4 lines away from margins
 set sidescrolloff=10           " Same thing for side scrolling
 set sidescroll=1
 set noswapfile                 " Disable swap files (I like to live dangerously)
 set nobackup
 set nowb
 set visualbell                 " No beeps plz
-set list                       " Visualize spaces/tabs
+"set list                       " Visualize spaces/tabs
+"set listchars=tab:>\ 
 
 
 " Plug config (Plugin list)
@@ -191,9 +192,8 @@ set colorcolumn=80
 set textwidth=80
 execute "set colorcolumn=" . join(range(81,400), ',')
 
-" Don't auto-insert comment header on newline, and don't wrap lines
-" that were over-long when insert mode started
-au FileType * set fo+=l fo-=r fo-=o
+" Don't auto-insert comment header on newline, and don't auto-wrap lines
+au FileType * set fo-=t fo-=r fo-=o
 
 " Command-T search config
 let g:CommandTFileScanner = "find"

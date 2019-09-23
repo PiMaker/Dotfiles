@@ -33,6 +33,7 @@ alias please='sudo '
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/Go
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+export MAKEFLAGS="-j$(nproc)"
 
 # ==== Experimental ====
 #autoload -U url-quote-magic
