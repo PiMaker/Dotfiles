@@ -1,0 +1,14 @@
+{
+    "firefox": "firefox",
+    "nightly": "firefox",
+    "chromium": "chrome",
+    "chromium-browser": "chrome",
+    "chrome": "chrome",
+    "google-chrome": "chrome",
+    "kitty": "terminal",
+    "termite": "terminal",
+    "thunderbird": "envelope",
+    "nautilus": "folder-open",
+    "cantata": "music",
+    "mpv": "play"
+}
