@@ -49,6 +49,7 @@ Plug 'godlygeek/tabular'
 Plug 'wincent/command-t'
 Plug 'jremmen/vim-ripgrep'
 Plug 'Raimondi/delimitMate'
+Plug 'rhysd/git-messenger.vim'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
 Plug 'ycm-core/YouCompleteMe'
@@ -73,6 +74,9 @@ let NERDTreeWinSize=32
 let NERDTreeWinPos="left"
 let NERDTreeShowHidden=1
 let NERDTreeAutoDeleteBuffer=1
+
+" Git messenger (<Leader>gm)
+let g:git_messenger_always_into_popup=1
 
 " Go to definition
 nnoremap gd g]1<CR>
@@ -152,7 +156,7 @@ nnoremap q: :
 function! InsertIndented()
     let l:line=getline('.')
     if (l:line=='')
-        call feedkeys('ddO', 'n')
+	call feedkeys('ddO', 'n')
     else
         startinsert!
     endif
