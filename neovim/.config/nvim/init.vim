@@ -86,7 +86,7 @@ let g:git_messenger_always_into_popup=1
 nnoremap gd g]1<CR>
 
 " Tagbar
-nnoremap <F8> :TagbarToggle<CR>
+nnoremap <F8> :TagbarToggle<CR> <bar> <c-w>l
 
 " Disable Ex Mode
 nnoremap Q <Nop>
