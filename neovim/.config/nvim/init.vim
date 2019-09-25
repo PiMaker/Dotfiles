@@ -115,6 +115,8 @@ nnoremap <A-Right> <c-w>l
 " Allow Ctrl-Left/Right to use vim-wordmotion plugin
 nnoremap <C-Left> b
 nnoremap <C-Right> w
+inoremap <C-Left> <C-o>b
+inoremap <C-Right> <C-o>w
 
 " Navigate through buffers
 nnoremap gn :bn<cr>
