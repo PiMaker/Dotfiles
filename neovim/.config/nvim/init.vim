@@ -126,14 +126,18 @@ imap <silent> <C-PageDown> <C-o>:bp<cr>
 " Ctrl+t new tab
 nnoremap <c-t> :tabe<cr>
 
-" Ctrl+q close buffer
+" (Ctrl|Alt)+q close buffer
 nnoremap <c-q> :bd<cr>
+nnoremap <a-q> :bd<cr>
 
 " Format file indentation
 nnoremap <leader><Tab> <esc>gg=G``zz
 
 " 0 goes to first indentation
 nnoremap 0 ^
+
+" SyntasticCheck map for easy syntax test
+nnoremap <Leader>s :SyntasticCheck<CR>
 
 " Easier block indentation
 nnoremap <tab> >>
@@ -169,7 +173,7 @@ function! InsertIndented()
     if (l:line=='')
 	call feedkeys('ddO', 'n')
     else
-        startinsert!
+	startinsert!
     endif
 endfunction
 nnoremap <silent> <S-a> :call InsertIndented()<CR>
@@ -197,8 +201,9 @@ set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
+let g:syntastic_mode_map = { "mode": "passive" }
 
 let g:syntastic_perl_checkers = ['perl']
 let g:syntastic_enable_perl_checker = 1
