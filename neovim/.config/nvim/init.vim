@@ -33,6 +33,7 @@ call plug#begin()
 
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-sensible'
+Plug 'chaoren/vim-wordmotion'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " Plug 'pablopunk/native-sidebar.vim'
@@ -40,7 +41,10 @@ Plug 'scrooloose/nerdtree'
 Plug 'haya14busa/incsearch.vim'
 Plug 'luochen1990/rainbow'
 Plug 'sheerun/vim-polyglot'
+Plug 'vim-syntastic/syntastic'
+Plug 'rust-lang/rust.vim'
 Plug 'vhda/verilog_systemverilog.vim'
+Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
@@ -81,6 +85,9 @@ let g:git_messenger_always_into_popup=1
 " Go to definition
 nnoremap gd g]1<CR>
 
+" Tagbar
+nnoremap <F8> :TagbarToggle<CR>
+
 " Disable Ex Mode
 nnoremap Q <Nop>
 
@@ -103,6 +110,10 @@ nnoremap <A-Left> <c-w>h
 nnoremap <A-Down> <c-w>j
 nnoremap <A-Up> <c-w>k
 nnoremap <A-Right> <c-w>l
+
+" Allow Ctrl-Left/Right to use vim-wordmotion plugin
+nnoremap <C-Left> b
+nnoremap <C-Right> w
 
 " Navigate through buffers
 nnoremap gn :bn<cr>
@@ -165,14 +176,31 @@ nnoremap <silent> <S-a> :call InsertIndented()<CR>
 inoremap {<CR> {<CR>}<C-o>O
 
 
-" I don't wanna save changes to a directory
+" Don't save changes to a directory
 autocmd FileType netrw setl bufhidden=delete
 
+" Gitgutter
+autocmd BufWritePost * GitGutter
+let g:gitgutter_sign_allow_clobber = 1
+let g:gitgutter_preview_win_floating = 0
 
 " YCM
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
+
+" Syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_perl_checkers = ['perl']
+let g:syntastic_enable_perl_checker = 1
 
 " easytags / ctags
 let g:easytags_autorecurse = 0
@@ -196,8 +224,8 @@ set colorcolumn=80
 set textwidth=80
 execute "set colorcolumn=" . join(range(81,400), ',')
 
-" Don't auto-insert comment header on newline, and don't auto-wrap lines
-au FileType * set fo-=t fo-=r fo-=o
+" Don't auto-insert comment header on newline, and don't auto-wrap long lines
+au FileType * set fo-=r fo-=o fo+=l
 
 " Command-T search config
 let g:CommandTFileScanner = "find"
