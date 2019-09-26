@@ -47,6 +47,10 @@ export TERM=xterm-termite
 
 # ==== END ====
 
+if [ "$FROM_SCRIPT" = "1" ]; then
+    return
+fi
+
 if [ "$(tty)" = "/dev/tty1" ]; then
     #startx
     toilet -f bigmono9 -F metal Welcome \\o/
