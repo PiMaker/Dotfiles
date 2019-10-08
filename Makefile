@@ -1,4 +1,4 @@
-# Run this using 'make install' to install all dotfiles at once.
+# Run this using 'make' to install all dotfiles at once.
 #
 # This script is idempotent, meaning you can execute it even if you have already
 # run it before - it will update some things, but not break.
@@ -7,8 +7,18 @@
 
 STOWS = $(shell ls */ | sed -e 's/\/\://')
 
-.PHONY: default
-default:
+.PHONY: default nvim stow zsh
+
+default: nvim stow zsh
+
+stow:
 	stow -S $(STOWS)
+
+nvim:
 	nvim -c 'PlugUpgrade|PlugInstall|PlugUpdate|qa'
-	zsh -c 'source ~/.zshrc; upgrade_oh_my_zsh'
+
+zsh: zsh-plugins
+	zsh -c 'export FROM_SCRIPT=1; source ~/.zshrc; upgrade_oh_my_zsh'
+
+zsh-plugins:
+	zsh ./upgrade-zsh-plugins.zsh
