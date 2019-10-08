@@ -92,6 +92,9 @@ nnoremap <F8> :TagbarToggle<CR> <bar> <c-w>l
 " Disable Ex Mode
 nnoremap Q <Nop>
 
+" Substitute word under cursor shortcut
+nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
+
 " Ctrl+c is ESC (it is by default but it won't trigger autocommands)
 inoremap <c-c> <esc>
 
@@ -140,7 +143,8 @@ nnoremap <leader><Tab> <esc>gg=G``zz
 nnoremap 0 ^
 
 " SyntasticCheck map for easy syntax test
-nnoremap <Leader>s :SyntasticCheck<CR>
+nnoremap <F5> :SyntasticCheck<CR>
+nnoremap <F6> :SyntasticReset<CR>
 
 " Easier block indentation
 nnoremap <tab> >>
