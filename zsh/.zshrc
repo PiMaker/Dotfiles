@@ -43,7 +43,7 @@ autoload -Uz compinit
 compinit
 kitty + complete setup zsh | source /dev/stdin
 
-export TERM=xterm-termite
+#export TERM=xterm-termite
 
 # ==== END ====
 
@@ -56,3 +56,4 @@ else
     tput cuu 1
 fi
 
+export PATH="$PATH:/home/sreiter/.local/bin"
