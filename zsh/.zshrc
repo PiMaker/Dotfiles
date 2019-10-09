@@ -1,7 +1,7 @@
 # Path to your oh-my-zsh installation.
   export ZSH="/home/sreiter/.oh-my-zsh"
 
-plugins=(git extract k wd fast-syntax-highlighting zsh-autosuggestions history-search-multi-word colored-man-pages_mod fancy-ctrl-z forgit undollar colorize z fzf-z)
+plugins=(git extract k wd fast-syntax-highlighting zsh-autosuggestions history-search-multi-word colored-man-pages_mod fancy-ctrl-z forgit undollar z fzf-z)
 
 source $ZSH/oh-my-zsh.sh
 
