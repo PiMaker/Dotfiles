@@ -220,8 +220,6 @@ client.placeholder        #d9d6ca   #1c1c22   #d9d6ca   #3e646f   #444444
 client.background #1c1c22
 
 # Gaps
-for_window [class=".*"] border pixel 1
-
 #gaps inner 10
 #gaps outer -4
 
