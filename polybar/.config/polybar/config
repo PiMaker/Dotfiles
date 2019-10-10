@@ -1,17 +1,6 @@
-;=====================================================
-;
-;   To learn more about how to configure Polybar
-;   go to https://github.com/jaagr/polybar
-;
-;   The README contains alot of information
-;
-;=====================================================
-
 [colors]
-;background = ${xrdb:color0:#222}
 background = #222
 background-alt = #444
-;foreground = ${xrdb:color7:#222}
 foreground = #808080
 foreground-alt = #555
 primary =  #456771
@@ -19,14 +8,13 @@ secondary = #09404d
 alert = #bd2c40
 
 [bar/main]
-; ADJUST THIS TO YOUR DISPLAY FROM 'xrandr'!!!
 #monitor = ${env:MONITOR:DisplayPort-1}
 width = 100%
 height = 25
 ;offset-x = 1%
 ;offset-y = 1%
 radius = 0.0
-fixed-center = falset
+fixed-center = false
 
 background = ${colors.background}
 foreground = ${colors.foreground}
@@ -48,9 +36,6 @@ font-2 = Wuncon Siji:pixelsize=11;1
 font-3 = FontAwesome:pixelsize=11:weight=bold;1
 font-4 = Source Code Pro:pixelsize=11;1
 
-;modules-left = i3
-;modules-center = xwindow
-;modules-right = mpd bright1 bright2 bright3 pulseaudio-rofi-output pulseaudio-rofi-input memory cpu popup-calendar
 include-file = $HOME/.config/polybar/config.modules
 
 tray-position = ${env:SYSTRAY:right}
@@ -136,6 +121,7 @@ label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
 
+# Don't you dare ask me why, but we need this in, otherwise i3 breaks
 [module/bspwm]
 type = internal/bspwm
 
@@ -202,28 +188,6 @@ icon-next = >
 label-song-maxlen = 50
 label-song-ellipsis = true
 
-[module/xbacklight]
-type = internal/xbacklight
-
-format = <label> <bar>
-label = BL
-
-bar-width = 12
-bar-indicator = |
-bar-indicator-foreground = #
-bar-indicator-font = 2
-bar-fill = ─
-bar-fill-font = 2
-bar-fill-foreground = #9f78e1
-bar-empty = ─
-bar-empty-font = 2
-bar-empty-foreground = ${colors.foreground-alt}
-
-[module/backlight-acpi]
-inherit = module/xbacklight
-type = internal/backlight
-card = intel_backlight
-
 [module/cpu]
 type = internal/cpu
 interval = 1
@@ -232,7 +196,6 @@ format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #456771
 label = %percentage:02%%
-
 
 ramp-coreload-0 = ▁
 ramp-coreload-0-font = 4
@@ -251,7 +214,6 @@ ramp-coreload-6-font = 4
 ramp-coreload-7 = ▇
 ramp-coreload-7-font = 4
 
-
 [module/memory]
 type = internal/memory
 interval = 2
@@ -259,28 +221,6 @@ format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline =  #456771
 label = %percentage_used%%
-
-[module/wlan]
-type = internal/network
-interface = net1
-interval = 3.0
-
-format-connected = <ramp-signal> <label-connected>
-format-connected-underline =  #456771
-label-connected = %essid%
-
-format-disconnected =
-;format-disconnected = <label-disconnected>
-;format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${colors.foreground-alt}
-
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
-ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
 type = internal/network
@@ -353,16 +293,6 @@ bar-volume-empty = ─
 bar-volume-empty-font = 3
 bar-volume-empty-foreground = ${colors.foreground-alt}
 
-[module/cmus]
-type = custom/script
-
-exec = sh ~/.config/polybar/cmus.sh
-exec-if = pgrep -x cmus
-interval = 1
-
-click-left = cmus-remote --pause
-click-right = cmus-remote --stop\
-
 [module/battery]
 type = internal/battery
 battery = BAT0
@@ -412,34 +342,6 @@ ramp-foreground = ${colors.foreground-alt}
 format-prefix = " "
 format-prefix-foreground = #666
 format-warn-prefix = " "
-
-
-[module/powermenu]
-type = custom/menu
-
-format-spacing = 1
-
-label-open = 
-label-open-foreground = ${colors.secondary}
-label-close =  cancel
-label-close-foreground = ${colors.secondary}
-label-separator = |
-label-separator-foreground = ${colors.foreground-alt}
-
-menu-0-0 = reboot
-menu-0-0-exec = menu-open-1
-menu-0-1 = power off
-menu-0-1-exec = menu-open-2
-
-menu-1-0 = cancel
-menu-1-0-exec = menu-open-0
-menu-1-1 = reboot
-menu-1-1-exec = sudo reboot
-
-menu-2-0 = power off
-menu-2-0-exec = sudo poweroff
-menu-2-1 = cancel
-menu-2-1-exec = menu-open-0
 
 [settings]
 screenchange-reload = true
