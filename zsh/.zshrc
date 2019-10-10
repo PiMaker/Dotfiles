@@ -1,7 +1,7 @@
 # Path to oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-plugins=(git extract k wd fast-syntax-highlighting zsh-autosuggestions history-search-multi-word colored-man-pages_mod fancy-ctrl-z forgit undollar z fzf-z)
+plugins=(git extract k wd fast-syntax-highlighting zsh-autosuggestions history-search-multi-word colored-man-pages fancy-ctrl-z forgit undollar z fzf-z)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -16,7 +16,7 @@ export PATH="$PATH:/home/sreiter/.local/bin"
 setopt histignorespace
 
 # Manually load calc plugin (allows '=' command)
-source $HOME/.oh-my-zsh/plugins/calc/calc.plugin.zsh/calc.plugin.zsh
+source $HOME/.oh-my-zsh/custom/plugins/calc/calc.plugin.zsh
 
 # Setup neovim as editor
 export EDITOR=nvim
@@ -46,7 +46,7 @@ function blank_screen() {
   xset s off; xset -dpms
 }
 
-killjobs () {
+function killjobs() {
 
     local kill_list="$(jobs)"
     if [ -n "$kill_list" ]; then
@@ -78,8 +78,9 @@ export CONCURRENCY_LEVEL="$(nproc)"
 export MAKEFLAGS="-j$(nproc)"
 
 # Better paste behaviour
-autoload -Uz url-quote-magic
-zle -N self-insert url-quote-magic
+# (no url-quote-magic for now, since it breaks syntax highlighting)
+# autoload -Uz url-quote-magic
+# zle -N self-insert url-quote-magic
 autoload -Uz bracketed-paste-magic
 zle -N bracketed-paste bracketed-paste-magic
 zstyle :bracketed-paste-magic paste-init backward-extend-paste
@@ -97,12 +98,12 @@ if [ -e "$HOME/.zshrc_local" ]; then
 fi
 
 # Don't do auto-action when sourced for update, etc...
-if [ "$FROM_SCRIPT" = "1" && ! -f "/tmp/tty1startx.done" ]; then
+if [ "$FROM_SCRIPT" = "1" ]; then
     return
 fi
 
 # Auto-action when logged in to terminal 1
-if [ "$(tty)" = "/dev/tty1" ]; then
+if [[ "$(tty)" = "/dev/tty1" && ! -f "/tmp/tty1startx.done" ]]; then
     touch "/tmp/tty1startx.done"
     startx
 else
