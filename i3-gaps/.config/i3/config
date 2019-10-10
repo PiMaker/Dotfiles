@@ -31,12 +31,13 @@ bindsym $mod+Shift+BackSpace move scratchpad
 bindsym $mod+BackSpace scratchpad show
 
 # Screenshot
-bindsym $mod+Pause exec --no-startup-id sh -c '~/.config/i3/screenshot.sh'
+bindsym $mod+Pause exec --no-startup-id ~/.config/i3/screenshot.sh
 
 # Switch screens (setup here is for triple monitor)
-bindsym $mod+Tab exec --no-startup-id /home/pi/Documents/i3/switch_mon.sh 1 2
-bindsym $mod+Shift+Tab exec --no-startup-id /home/pi/Documents/i3/switch_mon.sh 1 0
-bindsym $mod+m exec --no-startup-id /home/pi/Documents/Passthru/vm-attach.sh attach
+#bindsym $mod+Tab exec --no-startup-id ~/.config/i3/switch_mon.sh 1 2
+#bindsym $mod+Shift+Tab exec --no-startup-id ~/.config/i3/switch_mon.sh 1 0
+
+bindsym $mod+m exec --no-startup-id ~/.config/i3/vm-attach.sh attach
 
 # Focus
 bindsym $mod+Left focus left
