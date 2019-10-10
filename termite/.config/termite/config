@@ -3,7 +3,7 @@
 #audible_bell = false
 clickable_url = true
 font = Source Code Pro 11
-#mouse_autohide = false
+mouse_autohide = true
 #scroll_on_output = false
 #scroll_on_keystroke = true
 scrollback_lines = -1
