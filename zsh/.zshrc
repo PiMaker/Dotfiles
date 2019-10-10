@@ -13,6 +13,8 @@ prompt pure
 source $HOME/.profile
 export PATH="$PATH:/home/sreiter/.local/bin"
 
+setopt histignorespace
+
 # Manually load calc plugin (allows '=' command)
 source $HOME/.oh-my-zsh/plugins/calc/calc.plugin.zsh/calc.plugin.zsh
 
@@ -25,23 +27,69 @@ alias nano=nvim
 # Some aliases
 alias grep='grep --ignore-case --color=auto'
 alias lsn="ls -Artlh"
+alias lsnl="ls -Art | tail -n1"
+alias fxargs='find -type f -print0 | xargs -0 -n 1 -P 0'
+alias zshnohist='env HISTFILE="/dev/null" zsh'
 
 # To allow alias expansion in sudo commands
 alias sudo='sudo '
 alias please='sudo '
+
+# Custom functions
+function locate() {
+  sudo find / -iname "$1" 2>&1 | grep -v "Permission denied"
+}
+
+function blank_screen() {
+  xset dpms force off
+  read
+  xset s off; xset -dpms
+}
+
+killjobs () {
+
+    local kill_list="$(jobs)"
+    if [ -n "$kill_list" ]; then
+        # this runs the shell builtin kill, not unix kill, otherwise jobspecs cannot be killed
+        # the `$@` list must not be quoted to allow one to pass any number parameters into the kill
+        # the kill list must not be quoted to allow the shell builtin kill to recognise them as jobspec parameters
+        kill $@ $(sed --regexp-extended --quiet 's/\[([[:digit:]]+)\].*/%\1/gp' <<< "$kill_list" | tr '\n' ' ')
+    else
+        return 0
+    fi
+
+}
+
+function kpatch () {
+  patch=$1
+  shift
+  git send-email \
+    --cc-cmd="./scripts/get_maintainer.pl --norolestats $patch" \
+    $@ $patch
+}
 
 # Go flags
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/Go
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
-# "Make"/"configure" variables
+# Compilation flags
+export CONCURRENCY_LEVEL="$(nproc)"
 export MAKEFLAGS="-j$(nproc)"
 
+# Better paste behaviour
+autoload -Uz url-quote-magic
+zle -N self-insert url-quote-magic
+autoload -Uz bracketed-paste-magic
+zle -N bracketed-paste bracketed-paste-magic
+zstyle :bracketed-paste-magic paste-init backward-extend-paste
+
 # Kitty setup
-autoload -Uz compinit
-compinit
-kitty + complete setup zsh | source /dev/stdin
+if [ "$TERM" = "xterm-kitty" ]; then
+    autoload -Uz compinit
+    compinit
+    kitty + complete setup zsh | source /dev/stdin
+fi
 
 # Load local .zshrc
 if [ -e "$HOME/.zshrc_local" ]; then
@@ -49,15 +97,21 @@ if [ -e "$HOME/.zshrc_local" ]; then
 fi
 
 # Don't do auto-action when sourced for update, etc...
-if [ "$FROM_SCRIPT" = "1" ]; then
+if [ "$FROM_SCRIPT" = "1" && ! -f "/tmp/tty1startx.done" ]; then
     return
 fi
 
 # Auto-action when logged in to terminal 1
 if [ "$(tty)" = "/dev/tty1" ]; then
+    touch "/tmp/tty1startx.done"
     startx
 else
-    neofetch
-    tput cuu 1
+    # Print status if not launched as nested shell
+    # This avoids printing neofetch when running 'sudo -i' for example
+    PARENT_EXECUTABLE=$(cat /proc/$(ps -p "$$" -o ppid= | tr -d " ")/comm)
+    if [ "$PARENT_EXECUTABLE" != "zsh" ]; then
+        neofetch
+        tput cuu 1
+    fi
 fi
 
