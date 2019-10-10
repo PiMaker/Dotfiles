@@ -1,6 +1,9 @@
 # Path to oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
+# Fix annoying error when running as root
+ZSH_DISABLE_COMPFIX="true"
+
 plugins=(git extract k wd fast-syntax-highlighting zsh-autosuggestions history-search-multi-word colored-man-pages fancy-ctrl-z forgit undollar z fzf-z)
 
 source $ZSH/oh-my-zsh.sh
@@ -10,7 +13,7 @@ autoload -U promptinit; promptinit
 prompt pure
 
 # User configuration
-source $HOME/.profile
+[ -f $HOME/.profile ] && source $HOME/.profile
 export PATH="$PATH:/home/sreiter/.local/bin"
 
 setopt histignorespace
@@ -109,10 +112,14 @@ if [[ "$(tty)" = "/dev/tty1" && ! -f "/tmp/tty1startx.done" ]]; then
 else
     # Print status if not launched as nested shell
     # This avoids printing neofetch when running 'sudo -i' for example
-    PARENT_EXECUTABLE=$(cat /proc/$(ps -p "$$" -o ppid= | tr -d " ")/comm)
+    PARENT_PID=$(ps -p "$$" -o ppid= | tr -d " ")
+    PARENT_EXECUTABLE=$(cat /proc/$PARENT_PID/comm)
     if [ "$PARENT_EXECUTABLE" != "zsh" ]; then
-        neofetch
-        tput cuu 1
+        # Check for sudo
+        if [[ "$SUDO_COMMAND" != "$(which su)" && "$SUDO_COMMAND" != "$SHELL" ]]; then
+            neofetch
+            tput cuu 1
+        fi
     fi
 fi
 
