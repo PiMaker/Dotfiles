@@ -9,10 +9,10 @@ STOWS = $(shell ls */ | sed -e 's/\/\://')
 
 .PHONY: default nvim stow zsh
 
-default: nvim stow zsh
+default: stow
 
-stow:
-	stow -S $(STOWS)
+stow: nvim zsh
+	stow -v -n -S $(STOWS)
 
 nvim:
 	nvim -c 'PlugUpgrade|PlugInstall|PlugUpdate|qa'
