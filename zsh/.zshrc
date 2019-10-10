@@ -17,6 +17,8 @@ prompt pure
 export PATH="$PATH:/home/sreiter/.local/bin"
 
 setopt histignorespace
+setopt globdots
+zstyle ':completion:*' special-dirs false
 
 # Manually load calc plugin (allows '=' command)
 source $HOME/.oh-my-zsh/custom/plugins/calc/calc.plugin.zsh

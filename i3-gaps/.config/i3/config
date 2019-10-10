@@ -9,7 +9,7 @@ font xft:Source Code Pro 12
 
 floating_modifier $mod
 
-bindsym $mod+Return exec --no-startup-id kitty
+bindsym $mod+Return exec termite # kitty is good as well
 
 # Window kill command
 bindsym $mod+q kill
@@ -21,17 +21,22 @@ bindsym $mod+c exec --no-startup-id rofi -modi "clipboard:greenclip print" -show
 bindsym $mod+d exec --no-startup-id rofi -show run
 
 # Lock screen
-bindsym $mod+l exec --no-startup-id bash -c 'i3lock -i ~/Pictures/lock.png'
+bindsym $mod+l exec --no-startup-id sh -c '~/.config/i3/lock.sh'
 
 # KeePassXC
-bindsym Mod1+Ctrl+K exec --no-startup-id keepassxc
+bindsym Mod1+Ctrl+K exec keepassxc
 
 # Scratchpad
 bindsym $mod+Shift+BackSpace move scratchpad
 bindsym $mod+BackSpace scratchpad show
 
 # Screenshot
-bindsym $mod+Pause exec --no-startup-id flameshot gui
+bindsym $mod+Pause exec --no-startup-id sh -c '~/.config/i3/screenshot.sh'
+
+# Switch screens (setup here is for triple monitor)
+bindsym $mod+Tab exec --no-startup-id /home/pi/Documents/i3/switch_mon.sh 1 2
+bindsym $mod+Shift+Tab exec --no-startup-id /home/pi/Documents/i3/switch_mon.sh 1 0
+bindsym $mod+m exec --no-startup-id /home/pi/Documents/Passthru/vm-attach.sh attach
 
 # Focus
 bindsym $mod+Left focus left
@@ -73,9 +78,6 @@ bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
-
-# toggle sticky
-bindsym $mod+Shift+s sticky toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -182,9 +184,6 @@ for_window [class="keepassx2"] floating enable
 for_window [class="nm-connection-editor"] floating enable
 for_window [class="Yad" title="yad-calendar"] floating enable
 
-# switch to workspace with urgent window automatically
-for_window [urgent=latest] focus
-
 # reload the configuration file
 bindsym $mod+Shift+c reload
 
@@ -230,7 +229,8 @@ mode "resize" {
 }
 
 # Autostart applications via script
-exec_always --no-startup-id bash -c '~/i3init.sh 2>&1 > /tmp/i3init.log'
+exec_always --no-startup-id bash -c '~/i3init.sh 2>&1 > /tmp/i3init.log &'
+exec_always --no-startup-id i3-workspace-names-daemon -d " " -u
 
 # Theme colors
 client.focused #d9d6ca #1c1c22 #d9d6ca #5c828d #5c828d
