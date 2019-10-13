@@ -9,6 +9,8 @@
     "termite": "terminal",
     "thunderbird": "envelope",
     "nautilus": "folder-open",
+    "org.gnome.nautilus": "folder-open",
     "cantata": "music",
-    "mpv": "play"
+    "mpv": "play",
+    "steam": "steam"
 }

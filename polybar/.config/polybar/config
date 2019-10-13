@@ -85,6 +85,22 @@ type = custom/text
 content = 🌑
 click-left = sudo ddcutil setvcp 10 90
 
+[module/virt]
+type = custom/script
+exec = ~/Documents/Passthru/vm_status.sh
+interval = 3
+format-underline = #456771
+format-prefix = " "
+click-left = ~/Documents/Passthru/vm_shield.sh
+click-right = ~/Documents/Passthru/vm_shield.sh
+format-prefix-foreground = ${colors.foreground-alt}
+
+[module/arch]
+type = custom/text
+content = ""
+click-left = jgmenu --at-pointer
+click-right = jgmenu --at-pointer
+
 [module/pavu]
 type = custom/text
 content = "^v"
@@ -93,7 +109,7 @@ click-right = pavucontrol
 
 [module/xwindow]
 type = internal/xwindow
-label = %title:0:80:...%
+label = %title:0:70:...%
 
 [module/xkeyboard]
 type = internal/xkeyboard
