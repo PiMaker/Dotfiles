@@ -2,7 +2,7 @@
 #allow_bold = true
 #audible_bell = false
 clickable_url = true
-font = Source Code Pro 11
+font = Source Code Pro 9
 mouse_autohide = true
 #scroll_on_output = false
 #scroll_on_keystroke = true
@@ -15,26 +15,44 @@ hyperlinks = true
 browser = firefox
 
 [colors]
-background = rgba(21, 21, 21, 0.82)
+#background = rgba(21, 21, 21, 0.82)
+background = rgba(50, 50, 50, 0.82)
 
 cursor = "#bbbbbb"
 foreground = "#f8f8f2"
-color0 = #000000
-color1 = #ff5555
-color2 = #50fa7b
-color3 = #f1fa8c
-color4 = #bd93f9
-color5 = #ff79c6
-color6 = #8be9fd
-color7 = #bbbbbb
-color8 = #888888
-color9 = #ff5555
-color10 = #50fa7b
-color11 = #f1fa8c
-color12 = #bd93f9
-color13 = #ff79c6
-color14 = #8be9fd
+
+# black
+color0  = #626262
+color8  = #709080
+
+# red
+color1  = #975858
+color9  = #dca3a3
+
+# green
+color2  = #60b48a
+color10 = #c3bf9f
+
+# yellow
+color3  = #dfaf8f
+color11 = #f0dfaf
+
+# blue
+color4  = #4382c2
+color12 = #94bff3
+
+# magenta
+color5  = #dc8cc3
+color13 = #ec93d3
+
+# cyan
+color6  = #8cd0d3
+color14 = #93e0e3
+
+# white
+color7  = #dcdccc
 color15 = #ffffff
+
 colorBD = #ffffff
 colorIT =
 colorUL =
