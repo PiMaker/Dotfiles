@@ -31,7 +31,8 @@ alias nano=nvim
 
 # Some aliases
 alias grep='grep --ignore-case --color=auto'
-alias lsn="ls -Artlh"
+alias lsn='ls -Artlh'
+alias ccat='bat -p'
 alias lsnl="ls -Art | tail -n1"
 alias fxargs='find -type f -print0 | xargs -0 -n 1 -P 0'
 alias zshnohist='env HISTFILE="/dev/null" zsh'
