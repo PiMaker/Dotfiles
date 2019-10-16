@@ -249,6 +249,10 @@ let g:CommandTSuppressMaxFilesWarning = 1
 set hlsearch
 nnoremap <silent> <Esc> :<C-u>nohlsearch<CR>
 
+" Required for autoread
+au CursorHold * checktime
+au FocusGained,BufEnter * :silent! !
+
 " Highlight trailing whitespace
 highlight ExtraWhite ctermbg=darkred guibg=lightred
 autocmd Syntax * syn match ExtraWhite /\s\+$/ containedin=ALL
