@@ -2,7 +2,7 @@
 #allow_bold = true
 #audible_bell = false
 clickable_url = true
-font = Source Code Pro 9
+font = Source Code Pro 10
 mouse_autohide = true
 #scroll_on_output = false
 #scroll_on_keystroke = true
@@ -15,8 +15,8 @@ hyperlinks = true
 browser = firefox
 
 [colors]
-#background = rgba(21, 21, 21, 0.82)
-background = rgba(50, 50, 50, 0.82)
+background = rgba(21, 21, 21, 0.8)
+#background = rgba(50, 50, 50, 0.82)
 
 cursor = "#bbbbbb"
 foreground = "#f8f8f2"
