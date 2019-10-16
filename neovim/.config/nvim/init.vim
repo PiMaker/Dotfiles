@@ -23,9 +23,10 @@ set sidescroll=1
 set noswapfile                 " Disable swap files (I like to live dangerously)
 set nobackup
 set nowb
-set updatetime=250	       " Update stuff after 250ms (default 4000)
+set updatetime=250	           " Update stuff after 250ms (default 4000)
 set visualbell                 " No beeps plz
-"set list                       " Visualize spaces/tabs
+set clipboard^=unnamed         " Use clipboard register (+) as default
+"set list                      " Visualize spaces/tabs
 "set listchars=tab:>\ 
 
 
