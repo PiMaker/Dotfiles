@@ -24,7 +24,7 @@ zsh-plugins: stow
 
 	# install pure theme
 	[ -d "$(PURE_DIR)" ] || \
-		git clone --force https://github.com/sindresorhus/pure.git \
+		git clone https://github.com/sindresorhus/pure.git \
 		$(PURE_DIR)
 	cd $(PURE_DIR) && git checkout -b $(shell date +"%d-%m-%Y_%H-%M-%S") && \
 		git commit -a -m "backup-commit" && \
