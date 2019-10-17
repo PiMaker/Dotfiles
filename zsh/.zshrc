@@ -21,7 +21,7 @@ setopt globdots
 zstyle ':completion:*' special-dirs false
 
 # Manually load calc plugin (allows '=' command)
-source $HOME/.oh-my-zsh/custom/plugins/calc/calc.plugin.zsh
+source $HOME/.oh-my-zsh/custom/plugins/calc.plugin.zsh/calc.plugin.zsh
 
 # Setup neovim as editor
 export EDITOR=nvim

@@ -7,18 +7,16 @@
 
 STOWS = $(shell ls */ | sed -e 's/\/\://')
 
-.PHONY: default nvim stow zsh
+.PHONY: default nvim stow zsh-plugins
 
-default: stow
+default: nvim zsh-plugins
 
-stow: nvim zsh
-	stow -v -n -S $(STOWS)
+stow:
+	stow -v -S $(STOWS)
 
-nvim:
+nvim: stow
 	nvim -c 'PlugUpgrade|PlugInstall|PlugUpdate|qa'
 
-zsh: zsh-plugins
-	zsh -c 'export FROM_SCRIPT=1; source ~/.zshrc; upgrade_oh_my_zsh'
-
-zsh-plugins:
+zsh-plugins: stow
+	zsh ./install-zsh-plugins.zsh
 	zsh ./upgrade-zsh-plugins.zsh

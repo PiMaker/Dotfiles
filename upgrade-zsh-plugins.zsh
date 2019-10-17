@@ -1,8 +1,6 @@
 set -e
 
-export FROM_SCRIPT=1
-source ~/.zshrc
-cd $ZSH/custom/plugins
+cd ~/.oh-my-zsh/custom/plugins
 
 for x in *; do
     echo "=> Entering: $x"
