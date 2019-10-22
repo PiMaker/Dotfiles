@@ -6,7 +6,7 @@
 # Use 'stow' directly if you only want to use some specific dotfiles.
 
 STOWS = $(shell ls */ | sed -e 's/\/\://')
-PURE_DIR = $(HOME)/.oh-my-zsh/custom/plugins/pure-theme
+PURE_DIR = $(HOME)/.zsh/pure
 
 .PHONY: default nvim stow zsh-plugins
 
@@ -24,6 +24,7 @@ zsh-plugins: stow
 	zsh ./upgrade-zsh-plugins.zsh
 
 	# install pure theme
+	mkdir -p $(HOME)/.zsh
 	[ -d "$(PURE_DIR)" ] || \
 		git clone https://github.com/sindresorhus/pure.git \
 		$(PURE_DIR)
@@ -33,9 +34,3 @@ zsh-plugins: stow
 		git pull --rebase
 	chmod -R a+rx $(PURE_DIR)
 	chmod a+rx $(PURE_DIR)
-	rm -f /usr/local/share/zsh/site-functions/prompt_pure_setup
-	cp -v $(PURE_DIR)/prompt_pure_setup \
-		/usr/local/share/zsh/site-functions/prompt_pure_setup
-	rm -f /usr/local/share/zsh/site-functions/async
-	cp -v $(PURE_DIR)/async \
-		/usr/local/share/zsh/site-functions/async
