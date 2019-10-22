@@ -9,6 +9,7 @@ plugins=(git extract k wd fast-syntax-highlighting zsh-autosuggestions history-s
 source $ZSH/oh-my-zsh.sh
 
 # Theme
+fpath+=($HOME/.zsh)
 autoload -U promptinit; promptinit
 prompt pure
 
