@@ -33,34 +33,48 @@ set clipboard^=unnamed         " Use clipboard register (+) as default
 " Plug config (Plugin list)
 call plug#begin()
 
+" Version control
 Plug 'airblade/vim-gitgutter'
+Plug 'rhysd/git-messenger.vim'
+
+" Misc
 Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-eunuch'
+Plug 'xolox/vim-misc'
+Plug 'haya14busa/incsearch.vim'
+Plug 'pablopunk/persistent-undo.vim'
+
+" Code style
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'Raimondi/delimitMate'
+Plug 'vivien/vim-linux-coding-style'
+
+" Motions
 Plug 'chaoren/vim-wordmotion'
+Plug 'godlygeek/tabular'
+
+" Styling
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-" Plug 'pablopunk/native-sidebar.vim'
-Plug 'scrooloose/nerdtree'
-Plug 'haya14busa/incsearch.vim'
-Plug 'luochen1990/rainbow'
-Plug 'sheerun/vim-polyglot'
-Plug 'vivien/vim-linux-coding-style'
-Plug 'vim-syntastic/syntastic'
-Plug 'rust-lang/rust.vim'
-Plug 'vhda/verilog_systemverilog.vim'
 Plug 'majutsushi/tagbar'
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
-Plug 'pablopunk/persistent-undo.vim'
-Plug 'godlygeek/tabular'
+Plug 'scrooloose/nerdtree'
+Plug 'luochen1990/rainbow'
+Plug 'lithammer/vim-eighties'
+
+" Syntax/Autocomplete
+Plug 'sheerun/vim-polyglot'
+Plug 'vim-syntastic/syntastic'
+Plug 'ycm-core/YouCompleteMe'
+Plug 'xolox/vim-easytags'
+
+" Languages
+Plug 'vhda/verilog_systemverilog.vim'
+Plug 'rust-lang/rust.vim'
+
+" Tools
 Plug 'wincent/command-t'
 Plug 'jremmen/vim-ripgrep'
-Plug 'Raimondi/delimitMate'
-Plug 'rhysd/git-messenger.vim'
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-easytags'
-Plug 'ycm-core/YouCompleteMe'
-Plug 'lithammer/vim-eighties'
 
 call plug#end()
 
