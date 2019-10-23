@@ -121,8 +121,16 @@ else
     if [ "$PARENT_EXECUTABLE" != "zsh" ]; then
         # Check for sudo
         if [[ "$SUDO_COMMAND" != "$(which su)" && "$SUDO_COMMAND" != "$SHELL" ]]; then
-            neofetch
-            tput cuu 1
+            # Check for SSH
+            if [[ -v SSH_CONNECTION ]]; then
+                SRC=$(echo "$SSH_CONNECTION" | cut -d' ' -f1,2 | tr " " ":")
+                DST=$(echo "$SSH_CONNECTION" | cut -d' ' -f3,4 | tr " " ":")
+                echo
+                echo "Incoming SSH: $SRC -> $DST"
+            else
+                neofetch
+                tput cuu 1
+            fi
         fi
     fi
 fi
