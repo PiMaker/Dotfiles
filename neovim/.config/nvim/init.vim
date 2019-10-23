@@ -93,8 +93,13 @@ let mapleader = "\<space>"
 nmap <silent> <leader><t> <Plug>(CommandT)
 nmap <silent> <C-p> <Plug>(CommandT)
 
-" Ripgrep
-nmap ; :Rg<Space>
+" Ripgrep (and repeating motions with ,)
+noremap , ;
+noremap ; :Rg<Space>
+
+" Paragraph movement
+noremap <c-k> {
+noremap <c-j> }
 
 " Nerdtree
 map <F2> :NERDTreeToggle<CR>
@@ -128,11 +133,7 @@ inoremap <c-s> <esc>:w<CR>
 " Ctrl-c copies in visual mode
 vnoremap <c-c> "+y
 
-" Ctrl+hjkl/Alt-arrowkeys moves split focus
-nnoremap <c-h> <c-w>h
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-l> <c-w>l
+" Alt-arrowkeys moves split focus
 nnoremap <A-Left> <c-w>h
 nnoremap <A-Down> <c-w>j
 nnoremap <A-Up> <c-w>k
