@@ -44,6 +44,7 @@ Plug 'tpope/vim-eunuch'
 Plug 'xolox/vim-misc'
 Plug 'haya14busa/incsearch.vim'
 Plug 'pablopunk/persistent-undo.vim'
+Plug 'can3p/incbool.vim'
 
 " Code style
 Plug 'tpope/vim-commentary'
@@ -54,6 +55,11 @@ Plug 'vivien/vim-linux-coding-style'
 " Motions
 Plug 'chaoren/vim-wordmotion'
 Plug 'godlygeek/tabular'
+Plug 'unblevable/quick-scope'
+Plug 'kana/vim-textobj-user'
+Plug 'wellle/targets.vim'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'glts/vim-textobj-comment'
 
 " Styling
 Plug 'vim-airline/vim-airline'
@@ -240,6 +246,9 @@ let g:airline#extensions#tabline#enabled = 1
 set guifont="Source Code Pro for Powerline"
 let g:airline_powerline_fonts = 1
 let g:airline_theme="minimalist"
+
+" quick-scope
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 " Colors
 syntax on
