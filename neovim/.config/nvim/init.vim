@@ -83,17 +83,7 @@ Plug 'rust-lang/rust.vim'
 Plug 'wincent/command-t'
 Plug 'jremmen/vim-ripgrep'
 
-" Hard mode light
-Plug 'kbarrette/mediummode'
-
 call plug#end()
-
-" More and less harder mode
-let g:mediummode_motion_keys = ['h', 'l']
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
 
 
 " Remap leader key
