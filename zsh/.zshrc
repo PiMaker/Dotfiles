@@ -1,5 +1,6 @@
 # Path to oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+export DISABLE_AUTO_UPDATE=true
 
 # Fix annoying error when running as root
 ZSH_DISABLE_COMPFIX="true"
