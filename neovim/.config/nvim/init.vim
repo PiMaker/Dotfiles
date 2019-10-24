@@ -152,10 +152,10 @@ inoremap <C-Right> <C-o>w
 " Navigate through buffers
 nnoremap gn :bn<cr>
 nnoremap gb :bp<cr>
-nnoremap <silent> <C-PageUp> :bn<cr>
-nnoremap <silent> <C-PageDown> :bp<cr>
-imap <silent> <C-PageUp> <C-o>:bn<cr>
-imap <silent> <C-PageDown> <C-o>:bp<cr>
+nnoremap <silent> <C-PageUp> :bp<cr>
+nnoremap <silent> <C-PageDown> :bn<cr>
+imap <silent> <C-PageUp> <C-o>:bp<cr>
+imap <silent> <C-PageDown> <C-o>:bn<cr>
 
 " Ctrl+t new tab
 nnoremap <c-t> :tabe<cr>
