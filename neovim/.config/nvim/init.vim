@@ -101,6 +101,10 @@ noremap ; :Rg<Space>
 noremap <c-k> {
 noremap <c-j> }
 
+" Disable shift-movement, never used except by accident
+noremap <S-Up> <Up>
+noremap <S-Down> <Down>
+
 " Nerdtree
 map <F2> :NERDTreeToggle<CR>
 let NERDTreeWinSize=32
