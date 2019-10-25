@@ -76,11 +76,6 @@ function kpatch () {
     $@ $patch
 }
 
-# Go flags
-export GOROOT=/usr/local/go
-export GOPATH=$HOME/Go
-export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
-
 # Compilation flags
 export CONCURRENCY_LEVEL="$(nproc)"
 export MAKEFLAGS="-j$(nproc)"

@@ -137,6 +137,9 @@ inoremap <c-s> <esc>:w<CR>
 " Ctrl-c copies in visual mode
 vnoremap <c-c> "+y
 
+" Make <del> delete, not cut characters
+noremap <del> "_x
+
 " Alt-arrowkeys moves split focus
 nnoremap <A-Left> <c-w>h
 nnoremap <A-Down> <c-w>j
