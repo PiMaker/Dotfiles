@@ -20,6 +20,7 @@ export PATH="$PATH:/home/sreiter/.local/bin"
 
 setopt histignorespace
 setopt globdots
+setopt -K # avoid treating ! specially
 zstyle ':completion:*' special-dirs false
 
 # Manually load calc plugin (allows '=' command)
