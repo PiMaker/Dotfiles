@@ -38,7 +38,7 @@ font-4 = Source Code Pro:pixelsize=11;1
 
 include-file = $HOME/.config/polybar/config.modules
 
-tray-position = ${env:SYSTRAY:right}
+tray-position = ${env:SYSTRAY}
 tray-padding = 2
 
 scroll-up = i3wm-wsnext
