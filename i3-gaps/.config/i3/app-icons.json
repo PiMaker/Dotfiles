@@ -12,5 +12,6 @@
     "org.gnome.nautilus": "folder-open",
     "cantata": "music",
     "mpv": "play",
-    "steam": "steam"
+    "steam": "steam",
+    "telegramdesktop": "telegram"
 }
