@@ -98,12 +98,10 @@ noremap , ;
 noremap ; :Rg<Space>
 
 " Paragraph movement
-noremap <c-k> {
-noremap <c-j> }
-
-" Disable shift-movement, never used except by accident
-noremap <S-Up> <Up>
-noremap <S-Down> <Down>
+noremap <S-k> {
+noremap <S-j> }
+noremap <S-Up> {
+noremap <S-Down> }
 
 " Nerdtree
 map <F2> :NERDTreeToggle<CR>
@@ -192,6 +190,10 @@ nnoremap <C-Up> <C-y>
 inoremap <C-Up> <C-o><C-y>
 nnoremap <C-Down> <C-e>
 inoremap <C-Down> <C-o><C-e>
+nnoremap <C-k> <C-y>
+inoremap <C-k> <C-o><C-y>
+nnoremap <C-j> <C-e>
+inoremap <C-j> <C-o><C-e>
 
 " Move lines up/down
 nnoremap <A-j> :m .+1<CR>==
