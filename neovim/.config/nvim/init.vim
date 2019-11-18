@@ -220,6 +220,9 @@ endfunction
 nnoremap <silent> <S-a> :call InsertIndented()<CR>
 inoremap {<CR> {<CR>}<C-o>O
 
+" Format JSON with Python's help
+com! FormatJSON %!python -m json.tool
+
 
 " Don't save changes to a directory
 autocmd FileType netrw setl bufhidden=delete
