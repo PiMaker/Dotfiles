@@ -17,6 +17,7 @@ set autoread                   " Re-read files if unmodified
 set linebreak                  " Avoid wrapping lines in the middle of a word.
 set number                     " Line numbers
 set expandtab shiftround smartindent autoindent
+set shiftwidth=4
 set scrolloff=4                " Start scrolling when we're 4 lines away from margins
 set sidescrolloff=10           " Same thing for side scrolling
 set sidescroll=1
@@ -50,7 +51,7 @@ Plug 'can3p/incbool.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'Raimondi/delimitMate'
-Plug 'vivien/vim-linux-coding-style'
+"Plug 'vivien/vim-linux-coding-style'
 
 " Motions
 Plug 'chaoren/vim-wordmotion'
