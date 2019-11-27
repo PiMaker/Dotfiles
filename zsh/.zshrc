@@ -32,6 +32,10 @@ alias vi=vim
 alias vim=nvim
 alias nano=nvim
 
+# The flesh is weak
+alias c=cd
+alias n=nano
+
 # Some aliases
 alias grep='grep --ignore-case --color=auto'
 alias lsn='ls -Artlh'
