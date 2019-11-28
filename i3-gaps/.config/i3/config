@@ -33,9 +33,9 @@ bindsym $mod+BackSpace scratchpad show
 # Screenshot
 bindsym $mod+Pause exec --no-startup-id ~/.config/i3/screenshot.sh
 
-# Switch screens (setup here is for triple monitor)
-#bindsym $mod+Tab exec --no-startup-id ~/.config/i3/switch_mon.sh 1 2
-#bindsym $mod+Shift+Tab exec --no-startup-id ~/.config/i3/switch_mon.sh 1 0
+# Switch workspaces between screens
+bindsym $mod+Ctrl+Left exec --no-startup-id ~/.config/i3/switch_mon.sh left
+bindsym $mod+Ctrl+Right exec --no-startup-id ~/.config/i3/switch_mon.sh right
 
 bindsym $mod+m exec --no-startup-id ~/.config/i3/vm-attach.sh attach
 
@@ -208,7 +208,7 @@ mode "resize" {
 
 # Autostart applications via script
 exec_always --no-startup-id bash -c '~/i3init.sh 2>&1 > /tmp/i3init.log &'
-exec_always --no-startup-id i3-workspace-names-daemon -d " " -u
+# exec_always --no-startup-id i3-workspace-names-daemon -d " " -u
 
 # Theme colors
 client.focused            #d9d6ca   #1c1c22   #d9d6ca   #5c828d   #777777
