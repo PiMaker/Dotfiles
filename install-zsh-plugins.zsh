@@ -13,6 +13,7 @@ REPOS=(
         "https://github.com/supercrabtree/k"
         "https://github.com/zpm-zsh/undollar"
         "https://github.com/zsh-users/zsh-autosuggestions"
+        "https://github.com/unixorn/warhol.plugin.zsh"
 )
 
 for x in $REPOS; do

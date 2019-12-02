@@ -5,7 +5,7 @@ export DISABLE_AUTO_UPDATE=true
 # Fix annoying error when running as root
 ZSH_DISABLE_COMPFIX="true"
 
-plugins=(git extract k wd fast-syntax-highlighting zsh-autosuggestions history-search-multi-word colored-man-pages fancy-ctrl-z forgit undollar z fzf-z)
+plugins=(git extract k wd fast-syntax-highlighting zsh-autosuggestions history-search-multi-word colored-man-pages fancy-ctrl-z forgit undollar z fzf-z warhol)
 
 source $ZSH/oh-my-zsh.sh
 
