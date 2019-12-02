@@ -17,10 +17,10 @@ REPOS=(
 )
 
 for x in $REPOS; do
-        dir=$(echo "$x" | sed 's/.*\///g')
+        dir=$(echo "$x" | sed 's/\(^.*\/\|\.plugin\.zsh$\)//g')
         if [ ! -d "$dir" ]; then
                 echo "Plugin $dir not found, cloning from GitGub!"
-                git clone --recursive $x
+                git clone --recursive "$x" "$dir"
                 echo "=> Download complete!"
         else
                 echo "Plugin $dir found!"

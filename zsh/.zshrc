@@ -5,7 +5,7 @@ export DISABLE_AUTO_UPDATE=true
 # Fix annoying error when running as root
 ZSH_DISABLE_COMPFIX="true"
 
-plugins=(git extract k wd fast-syntax-highlighting zsh-autosuggestions history-search-multi-word colored-man-pages fancy-ctrl-z forgit undollar z fzf-z warhol)
+plugins=(git extract k wd fast-syntax-highlighting zsh-autosuggestions history-search-multi-word colored-man-pages fancy-ctrl-z forgit undollar z fzf-z warhol calc)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -22,9 +22,6 @@ setopt histignorespace
 setopt globdots
 setopt -K # avoid treating ! specially
 zstyle ':completion:*' special-dirs false
-
-# Manually load calc plugin (allows '=' command)
-source $HOME/.oh-my-zsh/custom/plugins/calc.plugin.zsh/calc.plugin.zsh
 
 # Setup neovim as editor
 export EDITOR=nvim
