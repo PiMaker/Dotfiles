@@ -132,6 +132,7 @@ inoremap <c-c> <esc>
 " Ctrl+s saves file in normal/insert mode
 nnoremap <c-s> <esc>:w<CR>
 inoremap <c-s> <esc>:w<CR>
+vnoremap <c-s> <esc>:w<CR>
 
 " Ctrl-c copies in visual mode
 vnoremap <c-c> "+y
