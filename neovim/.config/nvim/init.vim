@@ -98,6 +98,8 @@ nmap <silent> <C-p> <Plug>(CommandT)
 noremap , ;
 noremap ; :Rg<Space>
 
+noremap <C-m> :Commentary<CR>
+
 " Paragraph movement
 noremap <S-k> {
 noremap <S-j> }
