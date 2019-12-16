@@ -40,9 +40,15 @@ alias ccat='bat -p'
 alias lsnl="ls -Art | tail -n1"
 alias fxargs='find -type f -print0 | xargs -0 -n 1 -P 0'
 alias zshnohist='env HISTFILE="/dev/null" zsh'
+
+# git/vim shortcuts
 alias nanowd="nvim \$(git status --porcelain | grep '^\s*M\s*\S' | cut -d ' ' -f 3 | tr \"\\n\" ' ')"
 alias nvimwd="nanowd"
 alias vimwd="nanowd"
+
+alias nanocom="nvim \$(git show --pretty=oneline --name-status | tail --lines=+2 | grep -E '^[AM]' | cut -f2)"
+alias nvimcom="nanocom"
+alias vimcom="nanocom"
 
 # To allow alias expansion in sudo commands
 alias sudo='sudo '
