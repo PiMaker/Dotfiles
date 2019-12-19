@@ -1,0 +1,6 @@
+function blank_screen() {
+  xset dpms force off
+  read
+  xset s off; xset -dpms
+}
+

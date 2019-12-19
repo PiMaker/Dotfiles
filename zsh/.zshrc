@@ -23,6 +23,10 @@ setopt globdots
 setopt -K # avoid treating ! specially
 zstyle ':completion:*' special-dirs false
 
+# Load custom scripts
+fpath=(~/.config/zsh "${fpath[@]}")
+autoload -Uz locate blank_screen killjobs kp ks kpatch
+
 # Setup neovim as editor
 export EDITOR=nvim
 alias vi=vim
@@ -50,42 +54,11 @@ alias nanocom="nvim \$(git show --pretty=oneline --name-status | tail --lines=+2
 alias nvimcom="nanocom"
 alias vimcom="nanocom"
 
-# To allow alias expansion in sudo commands
+# To allow alias expansion in sudo commands and provide zsudo to run zsh
+# functions as root
 alias sudo='sudo '
 alias please='sudo '
-
-# Custom functions
-function locate() {
-  sudo find / -iname "$1" 2>&1 | grep -v "Permission denied"
-}
-
-function blank_screen() {
-  xset dpms force off
-  read
-  xset s off; xset -dpms
-}
-
-function killjobs() {
-
-    local kill_list="$(jobs)"
-    if [ -n "$kill_list" ]; then
-        # this runs the shell builtin kill, not unix kill, otherwise jobspecs cannot be killed
-        # the `$@` list must not be quoted to allow one to pass any number parameters into the kill
-        # the kill list must not be quoted to allow the shell builtin kill to recognise them as jobspec parameters
-        kill $@ $(sed --regexp-extended --quiet 's/\[([[:digit:]]+)\].*/%\1/gp' <<< "$kill_list" | tr '\n' ' ')
-    else
-        return 0
-    fi
-
-}
-
-function kpatch () {
-  patch=$1
-  shift
-  git send-email \
-    --cc-cmd="./scripts/get_maintainer.pl --norolestats $patch" \
-    $@ $patch
-}
+zsudo() sudo zsh -c "$functions[$1]" "$@"
 
 # Compilation flags
 export CONCURRENCY_LEVEL="$(nproc)"
