@@ -14,7 +14,7 @@ if (( RETRY > 5 )); then
 fi
 
 # Default systray mon specified here:
-SYSTRAY_MON="${SYSTRAY_MON:-HDMI-A-0}"
+SYSTRAY_MON="${SYSTRAY_MON:-DisplayPort-0}"
 
 if [ -z "$MONITOR" ]; then
   echo "No monitor specified, doing them all."
