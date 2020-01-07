@@ -1,0 +1,24 @@
+function nanowd() {
+    GIT_ROOT="$(git rev-parse --show-toplevel)/"
+    nvim $(git status --porcelain \
+        | grep '^\s*M\s*\S' \
+        | cut -d ' ' -f 3 \
+        | sed -e "s|^|$GIT_ROOT|g" \
+        | tr "\n" ' ')
+}
+
+function nanocom() {
+    GIT_ROOT="$(git rev-parse --show-toplevel)/"
+    nvim $(git show --pretty=oneline --name-status \
+        | tail --lines=+2 \
+        | grep -E '^[AM]' \
+        | cut -f2 \
+        | sed -e "s|^|$GIT_ROOT|g")
+}
+
+
+alias nvimwd="nanowd"
+alias vimwd="nanowd"
+
+alias nvimcom="nanocom"
+alias vimcom="nanocom"
