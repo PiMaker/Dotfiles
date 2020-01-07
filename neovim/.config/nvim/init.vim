@@ -209,12 +209,12 @@ vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
 " Smooth scroll
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 1)<CR>
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 1)<CR>
-noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 2)<CR>
-noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 2)<CR>
-noremap <silent> <PageUp> :call smooth_scroll#up(&scroll*2, 0, 2)<CR>
-noremap <silent> <PageDown> :call smooth_scroll#down(&scroll*2, 0, 2)<CR>
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 3, 1)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 3, 1)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 3, 1)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 3, 1)<CR>
+noremap <silent> <PageUp> :call smooth_scroll#up(&scroll*2, 3, 1)<CR>
+noremap <silent> <PageDown> :call smooth_scroll#down(&scroll*2, 3, 1)<CR>
 
 " Disable weird command window when quickly pressing q: instead of :q
 nnoremap q: :
