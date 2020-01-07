@@ -46,6 +46,7 @@ Plug 'xolox/vim-misc'
 Plug 'haya14busa/incsearch.vim'
 Plug 'pablopunk/persistent-undo.vim'
 Plug 'can3p/incbool.vim'
+Plug 'terryma/vim-smooth-scroll'
 
 " Code style
 Plug 'tpope/vim-commentary'
@@ -206,6 +207,14 @@ inoremap <A-j> <Esc>:m .+1<CR>==gi
 inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
+
+" Smooth scroll
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 1)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 1)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 2)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 2)<CR>
+noremap <silent> <PageUp> :call smooth_scroll#up(&scroll*2, 0, 2)<CR>
+noremap <silent> <PageDown> :call smooth_scroll#down(&scroll*2, 0, 2)<CR>
 
 " Disable weird command window when quickly pressing q: instead of :q
 nnoremap q: :
