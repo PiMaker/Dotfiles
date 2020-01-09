@@ -71,6 +71,12 @@ if [ "$TERM" = "xterm-kitty" ]; then
     kitty + complete setup zsh | source /dev/stdin
 fi
 
+# Termite setup
+if [[ $TERM == xterm-termite && -f /etc/profile.d/vte.sh ]]; then
+  . /etc/profile.d/vte.sh
+  __vte_osc7
+fi
+
 # Load local .zshrc
 if [ -e "$HOME/.zshrc_local" ]; then
     source $HOME/.zshrc_local
