@@ -25,8 +25,8 @@ if [ -z "$MONITOR" ]; then
     unset SYSTRAY
     if [ "$m" = $SYSTRAY_MON ]; then
        export SYSTRAY=right
+       MONITOR=$m $SCRIPT &
     fi
-    MONITOR=$m $SCRIPT &
   done
   exit 0
 fi
