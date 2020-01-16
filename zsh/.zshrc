@@ -5,7 +5,7 @@ export DISABLE_AUTO_UPDATE=true
 # Fix annoying error when running as root
 ZSH_DISABLE_COMPFIX="true"
 
-plugins=(git extract k wd fast-syntax-highlighting zsh-autosuggestions history-search-multi-word colored-man-pages fancy-ctrl-z forgit undollar z fzf-z warhol calc)
+plugins=(git extract k wd fast-syntax-highlighting zsh-autosuggestions history-search-multi-word colored-man-pages fancy-ctrl-z forgit undollar z fzf-z warhol calc zsh_reload)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -45,6 +45,7 @@ alias ccat='bat -p'
 alias lsnl="ls -Art | tail -n1"
 alias fxargs='find -type f -print0 | xargs -0 -n 1 -P 0'
 alias zshnohist='env HISTFILE="/dev/null" zsh'
+alias rtfm=man
 
 # To allow alias expansion in sudo commands and provide zsudo to run zsh
 # functions as root
