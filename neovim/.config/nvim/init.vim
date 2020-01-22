@@ -46,7 +46,7 @@ Plug 'xolox/vim-misc'
 Plug 'haya14busa/incsearch.vim'
 Plug 'pablopunk/persistent-undo.vim'
 Plug 'can3p/incbool.vim'
-Plug 'terryma/vim-smooth-scroll'
+Plug 'vim-scripts/ReplaceWithRegister'
 
 " Code style
 Plug 'tpope/vim-commentary'
@@ -56,12 +56,13 @@ Plug 'Raimondi/delimitMate'
 
 " Motions
 Plug 'chaoren/vim-wordmotion'
-Plug 'godlygeek/tabular'
 Plug 'unblevable/quick-scope'
+Plug 'justinmk/vim-sneak'
 Plug 'kana/vim-textobj-user'
 Plug 'wellle/targets.vim'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'glts/vim-textobj-comment'
+Plug 'svermeulen/vim-cutlass'
 
 " Styling
 Plug 'vim-airline/vim-airline'
@@ -96,16 +97,22 @@ nmap <silent> <leader><t> <Plug>(CommandT)
 nmap <silent> <C-p> <Plug>(CommandT)
 
 " Ripgrep (and repeating motions with ,)
-noremap , ;
-noremap ; :Rg<Space>
+nnoremap , ;
+nnoremap ; :Rg<Space>
 
-noremap <C-m> :Commentary<CR>
+nnoremap <CR> :Commentary<CR>
 
 " Paragraph movement
 noremap <S-k> {
 noremap <S-j> }
 noremap <S-Up> {
 noremap <S-Down> }
+
+" vim-cutlass removes "cut" functionality, add it back in
+nnoremap x d
+xnoremap x d
+nnoremap xx dd
+nnoremap X D
 
 " Nerdtree
 map <F2> :NERDTreeToggle<CR>
@@ -208,16 +215,13 @@ inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
-" Smooth scroll
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 3, 1)<CR>
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 3, 1)<CR>
-noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 3, 1)<CR>
-noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 3, 1)<CR>
-noremap <silent> <PageUp> :call smooth_scroll#up(&scroll*2, 3, 1)<CR>
-noremap <silent> <PageDown> :call smooth_scroll#down(&scroll*2, 3, 1)<CR>
+" ReplaceWithRegister by default in visual paste mode
+vnoremap p <Plug>ReplaceWithRegisterVisual
 
 " Disable weird command window when quickly pressing q: instead of :q
 nnoremap q: :
+" but still allow quick exit from Macro recording mode
+nnoremap Q q
 
 
 " Better indent controls
@@ -238,6 +242,15 @@ com! FormatJSON %!python -m json.tool
 
 " Don't save changes to a directory
 autocmd FileType netrw setl bufhidden=delete
+
+" Unmap enter key in quickfix windows to allow default plugin behaviour
+" (Fixes vim-ripgrep)
+autocmd BufWinEnter quickfix map <buffer> <CR> <CR>
+
+" sneak
+let g:sneak#label = 1
+let g:sneak#s_next = 1
+let g:sneak#use_ic_scs = 1
 
 " Gitgutter
 autocmd BufWritePost * GitGutter
@@ -301,7 +314,6 @@ set hlsearch
 nnoremap <silent> <Esc> :<C-u>nohlsearch<CR>
 
 " Required for autoread
-au CursorHold * checktime
 au FocusGained,BufEnter * :silent! !
 
 " Highlight trailing whitespace
