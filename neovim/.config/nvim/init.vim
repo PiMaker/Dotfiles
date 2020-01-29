@@ -46,6 +46,7 @@ Plug 'xolox/vim-misc'
 Plug 'haya14busa/incsearch.vim'
 Plug 'pablopunk/persistent-undo.vim'
 Plug 'can3p/incbool.vim'
+Plug 'christianrondeau/vim-base64'
 Plug 'vim-scripts/ReplaceWithRegister'
 
 " Code style
@@ -62,7 +63,6 @@ Plug 'kana/vim-textobj-user'
 Plug 'wellle/targets.vim'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'glts/vim-textobj-comment'
-Plug 'svermeulen/vim-cutlass'
 
 " Styling
 Plug 'vim-airline/vim-airline'
@@ -108,12 +108,6 @@ noremap <S-j> }
 noremap <S-Up> {
 noremap <S-Down> }
 
-" vim-cutlass removes "cut" functionality, add it back in
-nnoremap x d
-xnoremap x d
-nnoremap xx dd
-nnoremap X D
-
 " Nerdtree
 map <F2> :NERDTreeToggle<CR>
 let NERDTreeWinSize=32
@@ -125,7 +119,7 @@ let NERDTreeAutoDeleteBuffer=1
 let g:git_messenger_always_into_popup=1
 
 " Go to definition
-nnoremap gd g]1<CR>
+nnoremap gd g]1<CR><CR>
 
 " Tagbar
 nnoremap <F8> :TagbarToggle<CR> <bar> <c-w>l
@@ -238,6 +232,36 @@ inoremap {<CR> {<CR>}<C-o>O
 
 " Format JSON with Python's help
 com! FormatJSON %!python -m json.tool
+
+" vim-cutlass, but better and DIY
+function! HasMapping(mapping, mode)
+    return maparg(a:mapping, a:mode) != ''
+endfunction
+
+function! AddWeakMapping(left, right, modes, ...)
+    let recursive = a:0 > 0 ? a:1 : 0
+
+    for mode in split(a:modes, '\zs')
+        if !HasMapping(a:left, mode)
+            exec mode . (recursive ? "map" : "noremap") . " <silent> " . a:left . " " . a:right
+        endif
+    endfor
+endfunction
+
+let bindings =
+\ [
+\   ['c', '"_c', 'nx'],
+\   ['cc', '"_S', 'n'],
+\   ['C', '"_C', 'nx'],
+\   ['s', '"_s', 'nx'],
+\   ['S', '"_S', 'nx'],
+\   ['xx', '"_dd', 'nx'],
+\   ['X', '"_D', 'nx'],
+\ ]
+
+for binding in bindings
+    call call("AddWeakMapping", binding)
+endfor
 
 
 " Don't save changes to a directory
