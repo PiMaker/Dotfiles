@@ -51,6 +51,7 @@ alias rtfm=man
 # functions as root
 alias sudo='sudo '
 alias please='sudo '
+alias sudop='sudo ' # I'm stupid, sorry
 zsudo() sudo zsh -c "$functions[$1]" "$@"
 
 # Compilation flags
@@ -88,8 +89,9 @@ if [ "$FROM_SCRIPT" = "1" ]; then
     return
 fi
 
-# Auto-action when logged in to terminal 1
-if [[ "$(tty)" = "/dev/tty1" && ! -f "/tmp/tty1startx.done" ]]; then
+# Auto-action when logged in to terminal 1 (on system with X installed)
+if command -v startx > /dev/null && \
+    [[ "$(tty)" = "/dev/tty1" && ! -f "/tmp/tty1startx.done" ]]; then
     touch "/tmp/tty1startx.done"
     startx
 else
