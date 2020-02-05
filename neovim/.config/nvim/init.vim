@@ -100,7 +100,9 @@ nmap <silent> <C-p> <Plug>(CommandT)
 nnoremap , ;
 nnoremap ; :Rg<Space>
 
+" Commentary
 nnoremap <CR> :Commentary<CR>
+vnoremap <CR> :Commentary<CR>
 
 " Paragraph movement
 noremap <S-k> {
@@ -138,8 +140,9 @@ nnoremap <c-s> <esc>:w<CR>
 inoremap <c-s> <esc>:w<CR>
 vnoremap <c-s> <esc>:w<CR>
 
-" Ctrl-c copies in visual mode
+" Ctrl-(shift)-c copies in visual mode
 vnoremap <c-c> "+y
+vnoremap <c-s-c> "+y
 
 " Make <del> delete, not cut characters
 noremap <del> "_x
@@ -209,6 +212,10 @@ inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
+" GitGutter hunk movement
+nmap <Leader>hn <Plug>(GitGutterNextHunk)
+nmap <Leader>hN <Plug>(GitGutterPrevHunk)
+
 " ReplaceWithRegister by default in visual paste mode
 vnoremap p <Plug>ReplaceWithRegisterVisual
 
@@ -253,8 +260,6 @@ let bindings =
 \   ['c', '"_c', 'nx'],
 \   ['cc', '"_S', 'n'],
 \   ['C', '"_C', 'nx'],
-\   ['s', '"_s', 'nx'],
-\   ['S', '"_S', 'nx'],
 \   ['xx', '"_dd', 'nx'],
 \   ['X', '"_D', 'nx'],
 \ ]
@@ -273,7 +278,7 @@ autocmd BufWinEnter quickfix map <buffer> <CR> <CR>
 
 " sneak
 let g:sneak#label = 1
-let g:sneak#s_next = 1
+let g:sneak#s_next = 0
 let g:sneak#use_ic_scs = 1
 
 " Gitgutter
