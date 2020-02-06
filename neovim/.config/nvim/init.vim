@@ -47,7 +47,6 @@ Plug 'haya14busa/incsearch.vim'
 Plug 'pablopunk/persistent-undo.vim'
 Plug 'can3p/incbool.vim'
 Plug 'christianrondeau/vim-base64'
-Plug 'vim-scripts/ReplaceWithRegister'
 
 " Code style
 Plug 'tpope/vim-commentary'
@@ -216,9 +215,6 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
 nmap <Leader>hn <Plug>(GitGutterNextHunk)
 nmap <Leader>hN <Plug>(GitGutterPrevHunk)
 
-" ReplaceWithRegister by default in visual paste mode
-vnoremap p <Plug>ReplaceWithRegisterVisual
-
 " Disable weird command window when quickly pressing q: instead of :q
 nnoremap q: :
 " but still allow quick exit from Macro recording mode
@@ -267,6 +263,9 @@ let bindings =
 for binding in bindings
     call call("AddWeakMapping", binding)
 endfor
+
+" Cutlass-style visual pasting
+xnoremap p "_dP
 
 
 " Don't save changes to a directory
