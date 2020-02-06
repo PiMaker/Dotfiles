@@ -73,16 +73,15 @@ Plug 'lithammer/vim-eighties'
 
 " Syntax/Autocomplete
 Plug 'sheerun/vim-polyglot'
-Plug 'vim-syntastic/syntastic'
-Plug 'ycm-core/YouCompleteMe'
-Plug 'xolox/vim-easytags'
-
-" Languages
-Plug 'vhda/verilog_systemverilog.vim'
-Plug 'rust-lang/rust.vim'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'fszymanski/deoplete-emoji'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 
 " Tools
-Plug 'wincent/command-t'
+Plug 'junegunn/fzf'
 Plug 'jremmen/vim-ripgrep'
 
 call plug#end()
@@ -92,8 +91,7 @@ call plug#end()
 let mapleader = "\<space>"
 
 " Command T binding
-nmap <silent> <leader><t> <Plug>(CommandT)
-nmap <silent> <C-p> <Plug>(CommandT)
+nmap <silent> <C-p> :FZF<CR>
 
 " Ripgrep (and repeating motions with ,)
 nnoremap , ;
@@ -179,10 +177,6 @@ nnoremap <leader><Tab> <esc>gg=G``zz
 " 0 goes to first indentation
 nnoremap 0 ^
 
-" SyntasticCheck map for easy syntax test
-nnoremap <F5> :SyntasticCheck<CR>
-nnoremap <F6> :SyntasticReset<CR>
-
 " Easier block indentation
 nnoremap <tab> >>
 nnoremap <s-tab> <<
@@ -214,6 +208,9 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
 " GitGutter hunk movement
 nmap <Leader>hn <Plug>(GitGutterNextHunk)
 nmap <Leader>hN <Plug>(GitGutterPrevHunk)
+
+" LanguageClient
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 
 " Disable weird command window when quickly pressing q: instead of :q
 nnoremap q: :
@@ -285,28 +282,42 @@ autocmd BufWritePost * GitGutter
 let g:gitgutter_sign_allow_clobber = 1
 let g:gitgutter_preview_win_floating = 0
 
-" YCM
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
+" Deoplete
+let g:deoplete#enable_at_startup = 1
+autocmd CompleteDone * silent! pclose!
+call deoplete#custom#source('emoji', 'converters', ['converter_emoji'])
+set pumheight=16
 
-" Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" Make it <TAB> completion
+function! s:check_back_space() abort "{{{
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ deoplete#manual_complete()
+inoremap <silent><expr> <S-TAB>
+      \ pumvisible() ? "\<C-p>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ deoplete#manual_complete()
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-let g:syntastic_mode_map = { "mode": "passive" }
+" Fix <CR> behaviour
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return pumvisible() ? deoplete#close_popup() : "\n"
+endfunction
 
-let g:syntastic_perl_checkers = ['perl']
-let g:syntastic_enable_perl_checker = 1
-
-" easytags / ctags
-let g:easytags_autorecurse = 0
-let g:easytags_async = 1
+" LanguageClient
+let g:LanguageClient_diagnosticsEnable = 0
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'go': ['gopls'],
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ }
+    " \ 'perl': ['perl', '-MPerl::LanguageServer', '-e',
+    " \     'Perl::LanguageServer::run', '--',
+    " \     '--port', '13603', '--log-level', '0'],
 
 " tabline and themes
 let g:airline#extensions#tabline#enabled = 1
