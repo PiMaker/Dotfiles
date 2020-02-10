@@ -99,7 +99,7 @@ nnoremap ; :Rg<Space>
 
 " Commentary
 nnoremap <CR> :Commentary<CR>
-vnoremap <CR> :Commentary<CR>
+xnoremap <CR> :Commentary<CR>
 
 " Paragraph movement
 noremap <S-k> {
@@ -135,11 +135,11 @@ inoremap <c-c> <esc>
 " Ctrl+s saves file in normal/insert mode
 nnoremap <c-s> <esc>:w<CR>
 inoremap <c-s> <esc>:w<CR>
-vnoremap <c-s> <esc>:w<CR>
+xnoremap <c-s> <esc>:w<CR>
 
 " Ctrl-(shift)-c copies in visual mode
-vnoremap <c-c> "+y
-vnoremap <c-s-c> "+y
+xnoremap <c-c> "+y
+xnoremap <c-s-c> "+y
 
 " Make <del> delete, not cut characters
 noremap <del> "_x
@@ -180,12 +180,12 @@ nnoremap 0 ^
 " Easier block indentation
 nnoremap <tab> >>
 nnoremap <s-tab> <<
-vnoremap <tab> >gv
-vnoremap <s-tab> <gv
+xnoremap <tab> >gv
+xnoremap <s-tab> <gv
 nnoremap < <Nop>
-vnoremap < <Nop>
+xnoremap < <Nop>
 nnoremap > <Nop>
-vnoremap > <Nop>
+xnoremap > <Nop>
 
 " Scroll up/down without moving cursor
 nnoremap <C-Up> <C-y>
@@ -202,8 +202,8 @@ nnoremap <A-j> :m .+1<CR>==
 nnoremap <A-k> :m .-2<CR>==
 inoremap <A-j> <Esc>:m .+1<CR>==gi
 inoremap <A-k> <Esc>:m .-2<CR>==gi
-vnoremap <A-j> :m '>+1<CR>gv=gv
-vnoremap <A-k> :m '<-2<CR>gv=gv
+xnoremap <A-j> :m '>+1<CR>gv=gv
+xnoremap <A-k> :m '<-2<CR>gv=gv
 
 " GitGutter hunk movement
 nmap <Leader>hn <Plug>(GitGutterNextHunk)
@@ -234,34 +234,11 @@ inoremap {<CR> {<CR>}<C-o>O
 com! FormatJSON %!python -m json.tool
 
 " vim-cutlass, but better and DIY
-function! HasMapping(mapping, mode)
-    return maparg(a:mapping, a:mode) != ''
-endfunction
-
-function! AddWeakMapping(left, right, modes, ...)
-    let recursive = a:0 > 0 ? a:1 : 0
-
-    for mode in split(a:modes, '\zs')
-        if !HasMapping(a:left, mode)
-            exec mode . (recursive ? "map" : "noremap") . " <silent> " . a:left . " " . a:right
-        endif
-    endfor
-endfunction
-
-let bindings =
-\ [
-\   ['c', '"_c', 'nx'],
-\   ['cc', '"_S', 'n'],
-\   ['C', '"_C', 'nx'],
-\   ['xx', '"_dd', 'nx'],
-\   ['X', '"_D', 'nx'],
-\ ]
-
-for binding in bindings
-    call call("AddWeakMapping", binding)
-endfor
-
-" Cutlass-style visual pasting
+nnoremap c "_c
+nnoremap cc "_S
+nnoremap C "_C
+nnoremap X "_dd
+nnoremap x "_d1<Right>
 xnoremap p "_dP
 
 
