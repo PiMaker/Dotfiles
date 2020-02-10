@@ -279,6 +279,11 @@ inoremap <silent><expr> <S-TAB>
       \ <SID>check_back_space() ? "\<TAB>" :
       \ deoplete#manual_complete()
 
+inoremap <silent><expr> <Down>
+      \ pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <silent><expr> <Up>
+      \ pumvisible() ? "\<C-p>" : "\<Up>"
+
 " Fix <CR> behaviour
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
