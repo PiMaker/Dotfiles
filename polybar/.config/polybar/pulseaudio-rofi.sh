@@ -65,19 +65,33 @@ input_volume() {
 }
 
 output_volume_listener() {
-    pactl subscribe | while read -r event; do
-        if echo "$event" | grep -q "change"; then
+    if command -v pulseaudio-events > /dev/null; then
+        pulseaudio-events -f sink -o changed | while read -r event; do
             output_volume
-        fi
-    done
+        done
+    else
+        # very slow, only do if faster pulseaudio-events is not available
+        pactl subscribe | while read -r event; do
+            if echo "$event" | grep -q "change"; then
+                output_volume
+            fi
+        done
+    fi
 }
 
 input_volume_listener() {
-    pactl subscribe | while read -r event; do
-        if echo "$event" | grep -q "change"; then
+    if command -v pulseaudio-events > /dev/null; then
+        pulseaudio-events -f source -o changed | while read -r event; do
             input_volume
-        fi
-    done
+        done
+    else
+        # very slow, only do if faster pulseaudio-events is not available
+        pactl subscribe | while read -r event; do
+            if echo "$event" | grep -q "change"; then
+                input_volume
+            fi
+        done
+    fi
 }
 
 case "$1" in
