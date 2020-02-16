@@ -64,15 +64,25 @@ input_volume() {
              END { print muted=="no"?volume:"Muted" }'
 }
 
+check_for_parent() {
+    # polybar sometimes doesn't kill us correctly
+    # so commit suicide ourselves if we get attached to init
+    if [ $PPID = "1" ]; then
+        exit 0
+    fi
+}
+
 output_volume_listener() {
     if command -v pulseaudio-events > /dev/null; then
         pulseaudio-events -f sink -o changed | while read -r event; do
+            check_for_parent
             output_volume
         done
     else
         # very slow, only do if faster pulseaudio-events is not available
         pactl subscribe | while read -r event; do
             if echo "$event" | grep -q "change"; then
+                check_for_parent
                 output_volume
             fi
         done
@@ -82,12 +92,14 @@ output_volume_listener() {
 input_volume_listener() {
     if command -v pulseaudio-events > /dev/null; then
         pulseaudio-events -f source -o changed | while read -r event; do
+            check_for_parent
             input_volume
         done
     else
         # very slow, only do if faster pulseaudio-events is not available
         pactl subscribe | while read -r event; do
             if echo "$event" | grep -q "change"; then
+                check_for_parent
                 input_volume
             fi
         done
