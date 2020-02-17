@@ -285,10 +285,20 @@ inoremap <silent><expr> <Up>
       \ pumvisible() ? "\<C-p>" : "\<Up>"
 
 " Fix <CR> behaviour
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return pumvisible() ? deoplete#close_popup() : "\n"
+function! s:cr_function()
+    if pumvisible()
+        if empty(v:completed_item)
+            " Quickly select and unselect first element to work around weirdness
+            " with \n sometimes not doing what it's supposed to
+            return "\<C-n>\<C-p>\n"
+        else
+            return deoplete#close_popup()
+        endif
+    else
+        return "\n"
+    endif
 endfunction
+inoremap <silent> <CR> <C-r>=<SID>cr_function()<CR>
 
 " LanguageClient
 let g:LanguageClient_diagnosticsEnable = 0
