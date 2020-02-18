@@ -74,7 +74,7 @@ check_for_parent() {
 
 output_volume_listener() {
     if command -v pulseaudio-events > /dev/null; then
-        pulseaudio-events -f sink -o changed | while read -r event; do
+        pulseaudio-events -f sink -f server -o changed | while read -r event; do
             check_for_parent
             output_volume
         done
@@ -91,7 +91,7 @@ output_volume_listener() {
 
 input_volume_listener() {
     if command -v pulseaudio-events > /dev/null; then
-        pulseaudio-events -f source -o changed | while read -r event; do
+        pulseaudio-events -f source -f server -o changed | while read -r event; do
             check_for_parent
             input_volume
         done
