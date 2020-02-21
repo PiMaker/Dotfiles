@@ -3,7 +3,7 @@ background = #222
 background-alt = #444
 foreground = #808080
 foreground-alt = #555
-primary =  #456771
+primary = #7a3b33
 secondary = #09404d
 alert = #bd2c40
 
@@ -48,7 +48,7 @@ scroll-down = i3wm-wsprev
 type = custom/script
 exec = ~/.config/polybar/pulseaudio-rofi.sh --output_volume_listener
 tail = true
-format-underline = #456771
+format-underline = ${colors.primary}
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 click-right = ~/.config/polybar/pulseaudio-rofi.sh --output
@@ -61,7 +61,7 @@ scroll-down = ~/.config/polybar/pulseaudio-rofi.sh --volume_down
 type = custom/script
 exec = ~/.config/polybar/pulseaudio-rofi.sh --input_volume_listener
 tail = true
-format-underline = #456771
+format-underline = ${colors.primary}
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 click-right = ~/.config/polybar/pulseaudio-rofi.sh --input
@@ -89,7 +89,7 @@ click-left = sudo ddcutil setvcp 10 90
 type = custom/script
 exec = ~/Documents/Passthru/vm_status.sh
 interval = 3
-format-underline = #456771
+format-underline = ${colors.primary}
 format-prefix = " "
 click-left = ~/Documents/Passthru/vm_shield.sh
 click-right = ~/Documents/Passthru/vm_shield.sh
@@ -210,7 +210,7 @@ interval = 1
 format = <label> <ramp-coreload>
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #456771
+format-underline = ${colors.primary}
 label = %percentage:02%%
 
 ramp-coreload-0 = ▁
@@ -235,7 +235,7 @@ type = internal/memory
 interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline =  #456771
+format-underline = ${colors.primary}
 label = %percentage_used%%
 
 [module/eth]
@@ -243,7 +243,7 @@ type = internal/network
 interface = eno1
 interval = 3.0
 
-format-connected-underline =  #456771
+format-connected-underline = ${colors.primary}
 format-connected-prefix = " "
 format-connected-prefix-foreground = ${colors.foreground-alt}
 label-connected = %local_ip%
@@ -259,7 +259,7 @@ type = custom/script
 exec = ~/.config/polybar/popup-calendar.sh
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline =  #456771
+format-underline = ${colors.primary}
 interval = 1
 click-left = ~/.config/polybar/popup-calendar.sh --popup
 
@@ -275,7 +275,7 @@ time-alt = %H:%M:%S
 
 format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline =  #456771
+format-underline = ${colors.primary}
 
 label = %date% %time%
 
@@ -293,13 +293,13 @@ format-muted-foreground = ${colors.foreground-alt}
 label-muted = MUTED
 
 bar-volume-width = 10
-bar-volume-foreground-0 = #456771
-bar-volume-foreground-1 = #456771
-bar-volume-foreground-2 = #456771
-bar-volume-foreground-3 = #456771
-bar-volume-foreground-4 = #456771
-bar-volume-foreground-5 = #456771
-bar-volume-foreground-6 = #456771
+bar-volume-foreground-0 = ${colors.primary}
+bar-volume-foreground-1 = ${colors.primary}
+bar-volume-foreground-2 = ${colors.primary}
+bar-volume-foreground-3 = ${colors.primary}
+bar-volume-foreground-4 = ${colors.primary}
+bar-volume-foreground-5 = ${colors.primary}
+bar-volume-foreground-6 = ${colors.primary}
 bar-volume-gradient = true
 bar-volume-indicator = ●
 bar-volume-indicator-font = 2
@@ -316,7 +316,7 @@ adapter = ADP1
 full-at = 98
 
 format-charging = <animation-charging> <label-charging>
-format-charging-underline =  #456771
+format-charging-underline = ${colors.primary}
 
 format-discharging = <ramp-capacity> <label-discharging>
 format-discharging-underline = ${self.format-charging-underline}
@@ -342,7 +342,7 @@ thermal-zone = 2
 warn-temperature = 80
 
 format = <ramp> <label>
-format-underline =  #456771
+format-underline = ${colors.primary}
 format-warn = <ramp> <label-warn>
 format-warn-underline = ${self.format-underline}
 
@@ -370,7 +370,7 @@ screenchange-reload = true
 type = custom/script
 exec = uname -r
 interval = 1024
-format-underline =  #456771
+format-underline = ${colors.primary}
 format-prefix = " "
 format-prefix-foreground = #666
 
@@ -378,7 +378,7 @@ format-prefix-foreground = #666
 type = custom/script
 exec = date
 interval = 1
-format-underline =  #456771
+format-underline = ${colors.primary}
 format-prefix = " "
 format-prefix-foreground = #666
 
