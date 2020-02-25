@@ -74,7 +74,7 @@ if [ "$TERM" = "xterm-kitty" ]; then
 fi
 
 # Termite setup
-if [[ $TERM == xterm-termite && -f /etc/profile.d/vte.sh ]]; then
+if [[ "${VTE_VERSION:-0}" -ge 3405 && -f /etc/profile.d/vte.sh ]]; then
   . /etc/profile.d/vte.sh
   __vte_osc7
 fi
