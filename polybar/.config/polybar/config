@@ -359,6 +359,29 @@ format-prefix = " "
 format-prefix-foreground = #666
 format-warn-prefix = " "
 
+[module/temperature_amd]
+type = internal/temperature
+hwmon-path = /sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon1/temp1_input
+warn-temperature = 80
+
+format = <ramp> <label>
+format-underline = ${colors.primary}
+format-warn = <ramp> <label-warn>
+format-warn-underline = ${self.format-underline}
+
+label = %temperature-c%
+label-warn = %temperature-c%
+label-warn-foreground = ${colors.alert}
+
+ramp-0 =
+ramp-1 = 
+ramp-2 = 
+ramp-foreground = ${colors.foreground-alt}
+
+format-prefix = " "
+format-prefix-foreground = #666
+format-warn-prefix = " "
+
 [settings]
 screenchange-reload = true
 ;compositing-background = xor
