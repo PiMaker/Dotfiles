@@ -230,13 +230,22 @@ ramp-coreload-6-font = 4
 ramp-coreload-7 = ▇
 ramp-coreload-7-font = 4
 
+[module/cpu2]
+type = internal/cpu
+interval = 1
+format = <label>
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+format-underline = ${colors.foreground-alt}
+label = %percentage:02%%
+
 [module/memory]
 type = internal/memory
 interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = ${colors.primary}
-label = %percentage_used%%
+label = %percentage_used:02%%
 
 [module/eth]
 type = internal/network
@@ -364,7 +373,7 @@ type = internal/temperature
 hwmon-path = /sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon1/temp1_input
 warn-temperature = 80
 
-format = <ramp> <label>
+format = <label>
 format-underline = ${colors.primary}
 format-warn = <ramp> <label-warn>
 format-warn-underline = ${self.format-underline}
