@@ -112,6 +112,9 @@ else
                 neofetch
                 tput cuu 1
             fi
+        else
+            # we're sudo'ed to someone else, force display username
+            prompt_pure_state[username]='%F{$prompt_pure_colors[user]}%n%f%F{$prompt_pure_colors[host]}@%m%f'
         fi
     fi
 fi
