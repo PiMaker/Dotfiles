@@ -46,6 +46,7 @@ alias lsnl="ls -Art | tail -n1"
 alias fxargs='find -type f -print0 | xargs -0 -n 1 -P 0'
 alias zshnohist='env HISTFILE="/dev/null" zsh'
 alias rtfm=man
+alias xclip='xclip -selection clipboard'
 
 # To allow alias expansion in sudo commands and provide zsudo to run zsh
 # functions as root
