@@ -138,8 +138,9 @@ inoremap <c-s> <esc>:w<CR>
 xnoremap <c-s> <esc>:w<CR>
 
 " Ctrl-(shift)-c copies in visual mode
-xnoremap <c-c> "+y
-xnoremap <c-s-c> "+y
+" It does via the "remote-clip.sh" script, thus also allowing copy over SSH
+xnoremap <c-c> :w !~/.config/nvim/remote-clip.sh<CR><CR>
+xnoremap <c-s-c> :w !~/.config/nvim/remote-clip.sh<CR><CR>
 
 " Make <del> delete, not cut characters
 noremap <del> "_x

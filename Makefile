@@ -8,7 +8,7 @@
 STOWS = $(shell ls */ | sed -e 's/\/\://')
 PURE_DIR = $(HOME)/.zsh/pure
 
-.PHONY: default nvim stow zsh-plugins
+.PHONY: default nvim stow zsh-plugins allow-remote-clip-locally
 
 default: nvim zsh-plugins
 
@@ -34,3 +34,13 @@ zsh-plugins: stow
 		git pull --rebase
 	chmod -R a+rx $(PURE_DIR)
 	chmod a+rx $(PURE_DIR)
+
+allow-remote-clip-locally:
+	[[ $$(whoami) == "remote-clip-access" ]] || (echo "ERROR: This has to be run as dedicated user 'remote-clip-access' for security reasons!" && exit 1)
+	mkdir -p ~/.ssh && umask 0077 && touch ~/.ssh/authorized_keys
+	grep "remote-clip-access" ~/.ssh/authorized_keys >/dev/null || ( \
+		echo -n 'command="DISPLAY=:0 /usr/bin/xclip -selection clipboard; echo success",no-port-forwarding,no-x11-forwarding,no-agent-forwarding ' >> ~/.ssh/authorized_keys && \
+		cat neovim/.config/nvim/remote-clip.key.pub >> ~/.ssh/authorized_keys )
+	@echo "IMPORTANT: Don't forget to allow this user ($$(whoami)) to access your X session!"
+	@echo "IMPORTANT: I.e. run 'xhost +SI:localuser:remote-clip-access' as the owner of your session at X startup!"
+
