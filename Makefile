@@ -14,6 +14,7 @@ default: nvim zsh-plugins
 
 stow:
 	stow -v -S $(STOWS)
+	chmod 0600 ../.config/nvim/remote-clip.key
 
 nvim: stow
 	# auto-install and upgrade vim-plug plugins
