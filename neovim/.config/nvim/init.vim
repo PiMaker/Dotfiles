@@ -75,10 +75,11 @@ Plug 'lithammer/vim-eighties'
 Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'fszymanski/deoplete-emoji'
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ }
+Plug 'mvgrimes/vim-trackperlvars'
 
 " Tools
 Plug 'junegunn/fzf'
