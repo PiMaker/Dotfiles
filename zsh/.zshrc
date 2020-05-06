@@ -28,6 +28,30 @@ fpath=(~/.config/zsh "${fpath[@]}")
 autoload -Uz locate blank_screen killjobs kp ks kpatch nanowd
 nanowd # I don't understand autoload
 
+function ctrlp() {
+    local in_cmd="command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
+    -o -type f -print \
+    -o -type d -print \
+    -o -type l -print 2> /dev/null | cut -b3-"
+    local f=$(eval "$in_cmd" | fzf --preview '([[ -d {} ]] && ls -lA --color=always {}) || head -n50 {} | bat --color always --style=numbers,changes --wrap never -l $(basename -- {} | perl -pe "s/.*\.//")' --preview-window='top:50%' --ansi)
+    if [ -z "$f" ]; then
+        zle redisplay
+        return 0
+    fi
+
+    if [[ -d "$f" ]]; then
+        BUFFER="$f"
+    elif [[ -e "$f" ]]; then
+        BUFFER="nvim $f"
+    else
+        return 1
+    fi
+
+    zle accept-line
+}
+zle -N ctrlp
+bindkey '^p' ctrlp
+
 # Setup neovim as editor
 export EDITOR=nvim
 alias vi=vim
