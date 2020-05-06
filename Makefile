@@ -17,7 +17,11 @@ stow:
 	chmod 0600 ../.config/nvim/remote-clip.key
 
 nvim: stow
-	# auto-install and upgrade vim-plug plugins
+	curl -fLo "$${XDG_DATA_HOME:-$$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+	    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+	# auto-install and upgrade vim-plug plugins (this sometimes fails, just
+	# try again if it does...)
 	nvim -Es -u $(HOME)/.config/nvim/init.vim -c PlugInstall -c PlugUpgrade -c PlugUpdate -c qa
 
 zsh-plugins: stow
