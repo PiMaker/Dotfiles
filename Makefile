@@ -37,7 +37,7 @@ zsh-plugins: stow
 	chmod a+rx $(PURE_DIR)
 
 allow-remote-clip-locally:
-	[[ $$(whoami) == "remote-clip-access" ]] || (echo "ERROR: This has to be run as dedicated user 'remote-clip-access' for security reasons!" && exit 1)
+	bash -c '[[ $$(whoami) == "remote-clip-access" ]] || (echo "ERROR: This has to be run as dedicated user remote-clip-access for security reasons!" && exit 1)'
 	mkdir -p ~/.ssh && umask 0077 && touch ~/.ssh/authorized_keys
 	grep "remote-clip-access" ~/.ssh/authorized_keys >/dev/null || ( \
 		echo -n 'command="DISPLAY=:0 /usr/bin/xclip -selection clipboard; echo success",no-port-forwarding,no-x11-forwarding,no-agent-forwarding ' >> ~/.ssh/authorized_keys && \
