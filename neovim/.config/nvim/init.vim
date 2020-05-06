@@ -85,6 +85,9 @@ Plug 'mvgrimes/vim-trackperlvars'
 Plug 'junegunn/fzf'
 Plug 'jremmen/vim-ripgrep'
 
+" Load icons last
+Plug 'ryanoasis/vim-devicons'
+
 call plug#end()
 
 
