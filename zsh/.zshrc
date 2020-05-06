@@ -28,6 +28,16 @@ fpath=(~/.config/zsh "${fpath[@]}")
 autoload -Uz locate blank_screen killjobs kp ks kpatch nanowd
 nanowd # I don't understand autoload
 
+autoload edit-command-line; zle -N edit-command-line
+function edit-command-line-custom() {
+    if [ -z "$BUFFER" ]; then
+        BUFFER=$(history | tail -n1 | cut -d" " -f3-)
+    fi
+    zle edit-command-line
+}
+zle -N edit-command-line-custom
+bindkey '^e' edit-command-line-custom
+
 function ctrlp() {
     local in_cmd="command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
     -o -type f -print \
