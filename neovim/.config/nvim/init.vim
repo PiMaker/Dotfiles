@@ -45,7 +45,6 @@ Plug 'tpope/vim-eunuch'
 Plug 'xolox/vim-misc'
 Plug 'haya14busa/incsearch.vim'
 Plug 'pablopunk/persistent-undo.vim'
-Plug 'can3p/incbool.vim'
 Plug 'christianrondeau/vim-base64'
 
 " Code style
@@ -94,6 +93,7 @@ call plug#end()
 
 " Load external scripts
 source $HOME/.config/nvim/fzf-preview.vim
+source $HOME/.config/nvim/incbool.vim
 
 
 " Remap leader key
