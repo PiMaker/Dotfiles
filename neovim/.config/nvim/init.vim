@@ -27,6 +27,10 @@ set nowb
 set updatetime=250             " Update stuff after 250ms (default 4000)
 set visualbell                 " No beeps plz
 set clipboard^=unnamedplus     " Use clipboard register (+) as default
+set title                      " Change terminal title
+set history=1000               " Remember more commands and search history
+set undolevels=1000            " Remember more undos
+set gdefault                   " Automatically add /g behind regex substitutions
 "set list                      " Visualize tabs
 "set listchars=tab:>\ 
 set relativenumber             " Relative line numbers
@@ -113,6 +117,14 @@ noremap <S-j> }
 noremap <S-Up> {
 noremap <S-Down> }
 
+" Make j/k behave on long wrapped lines
+nnoremap j gj
+nnoremap k gk
+
+" Better regex searches
+nnoremap / /\v
+vnoremap / /\v
+
 " Nerdtree
 map <F2> :NERDTreeToggle<CR>
 let NERDTreeWinSize=32
@@ -193,6 +205,10 @@ nnoremap < <Nop>
 xnoremap < <Nop>
 nnoremap > <Nop>
 xnoremap > <Nop>
+
+" Reverse-indent with Shift-TAB
+nnoremap <S-Tab> <<
+inoremap <S-Tab> <C-d>
 
 " Scroll up/down without moving cursor
 nnoremap <C-Up> <C-y>
@@ -361,6 +377,9 @@ au FocusGained,BufEnter * :silent! !
 highlight ExtraWhite ctermbg=darkred guibg=lightred
 autocmd Syntax * syn match ExtraWhite /\s\+$/ containedin=ALL
 autocmd colorscheme * highlight ExtraWhite ctermbg=darkred guibg=lightred
+
+" Autosave on buffer leave
+au FocusLost * :wa
 
 " Include local config
 runtime local.vim
