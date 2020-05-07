@@ -50,6 +50,7 @@ Plug 'xolox/vim-misc'
 Plug 'haya14busa/incsearch.vim'
 Plug 'pablopunk/persistent-undo.vim'
 Plug 'christianrondeau/vim-base64'
+Plug 'farmergreg/vim-lastplace'
 
 " Code style
 Plug 'tpope/vim-commentary'
