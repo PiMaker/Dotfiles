@@ -16,7 +16,6 @@ prompt pure
 
 # User configuration
 [ -f $HOME/.profile ] && source $HOME/.profile
-export PATH="$PATH:/home/sreiter/.local/bin"
 
 setopt histignorespace
 setopt globdots
