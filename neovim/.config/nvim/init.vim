@@ -97,12 +97,14 @@ call plug#end()
 
 
 " Load external scripts
-source $HOME/.config/nvim/fzf-preview.vim
 source $HOME/.config/nvim/incbool.vim
 
 
 " Remap leader key
 let mapleader = "\<space>"
+
+" Command T binding
+nmap <silent> <C-p> :FZF<CR>
 
 " Ripgrep (and repeating motions with ,)
 nnoremap , ;
