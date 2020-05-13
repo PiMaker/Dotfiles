@@ -87,6 +87,8 @@ Plug 'mvgrimes/vim-trackperlvars'
 
 " Tools
 Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'chengzeyi/fzf-preview.vim'
 Plug 'jremmen/vim-ripgrep'
 
 " Load icons last
@@ -102,12 +104,13 @@ source $HOME/.config/nvim/incbool.vim
 " Remap leader key
 let mapleader = "\<space>"
 
-" Command T binding
-nmap <silent> <C-p> :FZF<CR>
+" FZF (+preview) binding
+nmap <silent> <C-p> :FZFFiles<CR>
+nmap <silent> <C-l> :FZFTags<CR>
 
 " Ripgrep (and repeating motions with ,)
 nnoremap , ;
-nnoremap ; :Rg<Space>
+nnoremap ; :FZFRg<CR>
 
 " Commentary
 nnoremap <CR> :Commentary<CR>
