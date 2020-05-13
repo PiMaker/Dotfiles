@@ -76,7 +76,6 @@ Plug 'luochen1990/rainbow'
 Plug 'lithammer/vim-eighties'
 
 " Syntax/Autocomplete
-Plug 'xolox/vim-easytags'
 Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'fszymanski/deoplete-emoji'
@@ -279,9 +278,6 @@ autocmd BufWinEnter quickfix map <buffer> <CR> <CR>
 let g:sneak#label = 1
 let g:sneak#s_next = 0
 let g:sneak#use_ic_scs = 1
-
-" Easytags
-let g:easytags_async = 1
 
 " Gitgutter
 autocmd BufWritePost * GitGutter
