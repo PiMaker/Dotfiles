@@ -305,7 +305,7 @@ inoremap <silent><expr> <TAB>
       \ deoplete#manual_complete()
 inoremap <silent><expr> <S-TAB>
       \ pumvisible() ? "\<C-p>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      \ <SID>check_back_space() ? "\<C-d>" :
       \ deoplete#manual_complete()
 
 inoremap <silent><expr> <Down>
