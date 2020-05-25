@@ -56,7 +56,7 @@ Plug 'farmergreg/vim-lastplace'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-endwise'
-Plug 'rstacruz/vim-closer'
+"Plug 'rstacruz/vim-closer'
 "Plug 'vivien/vim-linux-coding-style'
 
 " Motions
