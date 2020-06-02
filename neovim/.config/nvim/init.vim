@@ -80,10 +80,7 @@ Plug 'lithammer/vim-eighties'
 Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'fszymanski/deoplete-emoji'
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+Plug 'sebastianmarkow/deoplete-rust'
 Plug 'mvgrimes/vim-trackperlvars'
 
 " Tools
@@ -294,6 +291,10 @@ autocmd CompleteDone * silent! pclose!
 call deoplete#custom#source('emoji', 'converters', ['converter_emoji'])
 set pumheight=16
 
+" Deoplete/Rust
+let g:deoplete#sources#rust#disable_keymap=1
+nmap <buffer> K <plug>DeopleteRustShowDocumentation
+
 " Make it <TAB> completion
 function! s:check_back_space() abort "{{{
   let col = col('.') - 1
@@ -332,17 +333,6 @@ function! s:cr_function()
     endif
 endfunction
 inoremap <silent> <CR> <C-r>=<SID>cr_function()<CR>
-
-" LanguageClient
-let g:LanguageClient_diagnosticsEnable = 0
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    \ 'go': ['gopls'],
-    \ 'javascript': ['javascript-typescript-stdio'],
-    \ }
-    " \ 'perl': ['perl', '-MPerl::LanguageServer', '-e',
-    " \     'Perl::LanguageServer::run', '--',
-    " \     '--port', '13603', '--log-level', '0'],
 
 " tabline and themes
 let g:airline#extensions#tabline#enabled = 1
