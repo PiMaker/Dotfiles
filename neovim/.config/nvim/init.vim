@@ -286,13 +286,16 @@ let g:gitgutter_sign_allow_clobber = 1
 let g:gitgutter_preview_win_floating = 0
 
 " Deoplete
+set completeopt-=preview
 let g:deoplete#enable_at_startup = 1
 autocmd CompleteDone * silent! pclose!
 call deoplete#custom#source('emoji', 'converters', ['converter_emoji'])
-set pumheight=16
+set pumheight=20
 
 " Deoplete/Rust
 let g:deoplete#sources#rust#disable_keymap=1
+let g:deoplete#sources#rust#show_duplicates=0
+let g:deoplete#sources#rust#documentation_max_height=30
 nmap <buffer> K <plug>DeopleteRustShowDocumentation
 
 " Make it <TAB> completion
