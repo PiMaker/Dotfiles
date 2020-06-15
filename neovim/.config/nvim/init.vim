@@ -139,7 +139,7 @@ let NERDTreeAutoDeleteBuffer=1
 let g:git_messenger_always_into_popup=1
 
 " Go to definition
-nnoremap gd g]1<CR><CR>
+nnoremap gd g]
 
 " Tagbar
 nnoremap <F8> :TagbarToggle<CR> <bar> <c-w>l
