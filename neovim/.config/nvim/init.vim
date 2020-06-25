@@ -142,7 +142,8 @@ let NERDTreeAutoDeleteBuffer=1
 let g:git_messenger_always_into_popup=1
 
 " Go to definition
-nnoremap gd g]
+nnoremap <silent> gd g]1<CR>
+au FileType rust nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 
 " Tagbar
 nnoremap <F8> :TagbarToggle<CR> <bar> <c-w>l
@@ -295,7 +296,7 @@ let g:gitgutter_preview_win_floating = 0
 " Deoplete
 set completeopt-=preview
 let g:deoplete#enable_at_startup = 1
-autocmd CompleteDone * silent! pclose!
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | silent! pclose | endif
 call deoplete#custom#source('emoji', 'converters', ['converter_emoji'])
 set pumheight=20
 
@@ -384,9 +385,6 @@ au FocusGained,BufEnter * :silent! !
 highlight ExtraWhite ctermbg=darkred guibg=lightred
 autocmd Syntax * syn match ExtraWhite /\s\+$/ containedin=ALL
 autocmd colorscheme * highlight ExtraWhite ctermbg=darkred guibg=lightred
-
-" Autosave on buffer leave
-au FocusLost * :wa
 
 " Include local config
 runtime local.vim
