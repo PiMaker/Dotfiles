@@ -269,7 +269,8 @@ com! FormatJSON %!python -m json.tool
 nnoremap c "_c
 nnoremap cc "_S
 nnoremap C "_C
-nnoremap X "_dd
+nnoremap dd "_dd
+nnoremap X "+dd
 nnoremap x "_d1<Right>
 xnoremap p "_dP
 
@@ -315,7 +316,7 @@ inoremap <silent><expr> <TAB>
       \ deoplete#manual_complete()
 inoremap <silent><expr> <C-Space>
       \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      \ <SID>check_back_space() ? "\<Space>" :
       \ deoplete#manual_complete()
 inoremap <silent><expr> <S-TAB>
       \ pumvisible() ? "\<C-p>" :
