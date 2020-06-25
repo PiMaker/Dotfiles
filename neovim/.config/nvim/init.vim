@@ -144,6 +144,8 @@ let g:git_messenger_always_into_popup=1
 " Go to definition
 nnoremap <silent> gd g]1<CR>
 au FileType rust nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 " Tagbar
 nnoremap <F8> :TagbarToggle<CR> <bar> <c-w>l
@@ -299,12 +301,6 @@ let g:deoplete#enable_at_startup = 1
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | silent! pclose | endif
 call deoplete#custom#source('emoji', 'converters', ['converter_emoji'])
 set pumheight=20
-
-" Deoplete/Rust
-let g:deoplete#sources#rust#disable_keymap=1
-let g:deoplete#sources#rust#show_duplicates=0
-let g:deoplete#sources#rust#documentation_max_height=30
-nmap <buffer> K <plug>DeopleteRustShowDocumentation
 
 " Make it <TAB> completion
 function! s:check_back_space() abort "{{{
