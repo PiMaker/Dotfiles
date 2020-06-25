@@ -80,8 +80,11 @@ Plug 'lithammer/vim-eighties'
 Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'fszymanski/deoplete-emoji'
-Plug 'sebastianmarkow/deoplete-rust'
 Plug 'mvgrimes/vim-trackperlvars'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 
 " Tools
 Plug 'junegunn/fzf'
@@ -237,6 +240,9 @@ nmap <Leader>hN <Plug>(GitGutterPrevHunk)
 
 " LanguageClient
 nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rust-analyzer'],
+    \ }
 
 " Disable weird command window when quickly pressing q: instead of :q
 nnoremap q: :
