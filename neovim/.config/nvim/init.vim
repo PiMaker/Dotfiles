@@ -100,6 +100,7 @@ call plug#end()
 
 " Load external scripts
 source $HOME/.config/nvim/incbool.vim
+source $HOME/.config/nvim/starsearch.vim
 
 
 " Remap leader key
