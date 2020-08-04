@@ -107,6 +107,7 @@ source $HOME/.config/nvim/starsearch.vim
 let mapleader = "\<space>"
 
 " FZF (+preview) binding
+let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs'
 nmap <silent> <C-p> :FZFFiles<CR>
 nmap <silent> <C-l> :FZFTags<CR>
 
