@@ -80,6 +80,7 @@ alias fxargs='find -type f -print0 | xargs -0 -n 1 -P 0'
 alias zshnohist='env HISTFILE="/dev/null" zsh'
 alias rtfm=man
 alias xclip='xclip -selection clipboard'
+alias atop2='echo "i2\nt" | atop'
 
 # To allow alias expansion in sudo commands and provide zsudo to run zsh
 # functions as root
