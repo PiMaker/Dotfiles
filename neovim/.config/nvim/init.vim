@@ -78,13 +78,7 @@ Plug 'lithammer/vim-eighties'
 
 " Syntax/Autocomplete
 Plug 'sheerun/vim-polyglot'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'fszymanski/deoplete-emoji'
 Plug 'mvgrimes/vim-trackperlvars'
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
 
 " Tools
 Plug 'junegunn/fzf'
@@ -145,9 +139,6 @@ let g:git_messenger_always_into_popup=1
 
 " Go to definition
 nnoremap <silent> gd g]
-au FileType rust nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 " Tagbar
 nnoremap <F8> :TagbarToggle<CR> <bar> <c-w>l
@@ -243,12 +234,6 @@ xnoremap <A-k> :m '<-2<CR>gv=gv
 nmap <Leader>hn <Plug>(GitGutterNextHunk)
 nmap <Leader>hN <Plug>(GitGutterPrevHunk)
 
-" LanguageClient
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rust-analyzer'],
-    \ }
-
 " Disable weird command window when quickly pressing q: instead of :q
 nnoremap q: :
 " but still allow quick exit from Macro recording mode
@@ -296,13 +281,6 @@ let g:sneak#use_ic_scs = 1
 autocmd BufWritePost * GitGutter
 let g:gitgutter_sign_allow_clobber = 1
 let g:gitgutter_preview_win_floating = 0
-
-" Deoplete
-set completeopt-=preview
-let g:deoplete#enable_at_startup = 1
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | silent! pclose | endif
-call deoplete#custom#source('emoji', 'converters', ['converter_emoji'])
-set pumheight=20
 
 " Make it <TAB> completion
 function! s:check_back_space() abort "{{{
