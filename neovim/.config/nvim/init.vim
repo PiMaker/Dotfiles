@@ -34,6 +34,7 @@ set gdefault                   " Automatically add /g behind regex substitutions
 "set list                      " Visualize tabs
 "set listchars=tab:>\ 
 set relativenumber             " Relative line numbers
+set list
 
 
 " Plug config (Plugin list)
@@ -78,7 +79,22 @@ Plug 'lithammer/vim-eighties'
 
 " Syntax/Autocomplete
 Plug 'sheerun/vim-polyglot'
-Plug 'mvgrimes/vim-trackperlvars'
+
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
+
+" Collection of common configurations for the Nvim LSP client
+Plug 'neovim/nvim-lspconfig'
+" Extensions to built-in LSP, for example, providing type inlay hints
+Plug 'tjdevries/lsp_extensions.nvim'
+" Autocompletion framework for built-in LSP
+Plug 'nvim-lua/completion-nvim'
+" Diagnostic navigation and settings for built-in LSP
+Plug 'nvim-lua/diagnostic-nvim'
+
+Plug 'steelsojka/completion-buffers'
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/completion-treesitter'
 
 " Tools
 Plug 'junegunn/fzf'
@@ -265,6 +281,82 @@ nnoremap x "_d1<Right>
 xnoremap p "_dP
 
 
+" Autocomplete stuff
+
+" Set completeopt to have a better completion experience
+" :help completeopt
+" menuone: popup even when there's only one match
+" noinsert: Do not insert text until a selection is made
+" noselect: Do not select, force user to select one from the menu
+set completeopt=menuone,noinsert,noselect
+
+" Avoid showing extra messages when using completion
+set shortmess+=c
+
+let g:completion_enable_snippet = 'vim-vsnip'
+
+" Configure LSP
+" https://github.com/neovim/nvim-lspconfig#rust_analyzer
+lua <<EOF
+
+-- nvim_lsp object
+local nvim_lsp = require'nvim_lsp'
+
+-- function to attach completion and diagnostics
+-- when setting up lsp
+local on_attach = function(client)
+    require'completion'.on_attach(client)
+    require'diagnostic'.on_attach(client)
+end
+
+-- Enable rust_analyzer
+nvim_lsp.rust_analyzer.setup({ on_attach=on_attach })
+
+EOF
+
+" Setup sources
+let g:completion_chain_complete_list = {
+      \ 'default': [
+      \    {'complete_items': ['buffer', 'tags']},
+      \ ],
+      \ 'c': [
+      \    {'complete_items': ['ts']},
+      \ ],
+      \ 'rust': [
+      \    {'complete_items': ['lsp']},
+      \ ],
+\ }
+
+autocmd BufEnter * lua require'completion'.on_attach()
+
+" Code navigation shortcuts
+nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+" nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+" nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+" nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+" nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+" nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> <F2>    <cmd>lua vim.lsp.buf.rename()<CR>
+
+" Visualize diagnostics
+let g:diagnostic_enable_virtual_text = 1
+let g:diagnostic_trimmed_virtual_text = '80'
+let g:diagnostic_virtual_text_prefix = '🗲 '
+" Don't show diagnostics while in insert mode
+let g:diagnostic_insert_delay = 1
+
+" Goto previous/next diagnostic warning/error
+nnoremap <silent> dN <cmd>PrevDiagnosticCycle<cr>
+nnoremap <silent> dn <cmd>NextDiagnosticCycle<cr>
+
+" Enable type inlay hints
+autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
+\ lua require'lsp_extensions'.inlay_hints{ prefix = ' ⪢  ', highlight = "Comment" }
+
+
 " Don't save changes to a directory
 autocmd FileType netrw setl bufhidden=delete
 
@@ -283,22 +375,23 @@ let g:gitgutter_sign_allow_clobber = 1
 let g:gitgutter_preview_win_floating = 0
 
 " Make it <TAB> completion
+imap <silent> <c-p> <Plug>(completion_smart_tab)
 function! s:check_back_space() abort "{{{
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction"}}}
-inoremap <silent><expr> <TAB>
+imap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
-      \ deoplete#manual_complete()
-inoremap <silent><expr> <C-Space>
+      \ "\<c-p>"
+imap <silent><expr> <C-Space>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<Space>" :
-      \ deoplete#manual_complete()
-inoremap <silent><expr> <S-TAB>
+      \ "\<c-p>"
+imap <silent><expr> <S-TAB>
       \ pumvisible() ? "\<C-p>" :
-      \ <SID>check_back_space() ? "\<C-d>" :
-      \ deoplete#manual_complete()
+      \ <SID>check_back_space() ? "\<Backspace>" :
+      \ "\<c-p>"
 
 inoremap <silent><expr> <Down>
       \ pumvisible() ? "\<C-n>" : "\<Down>"
@@ -313,7 +406,7 @@ function! s:cr_function()
             " with \n sometimes not doing what it's supposed to
             return "\<C-n>\<C-p>\n"
         else
-            return deoplete#close_popup()
+            return "\<Plug>(completion_confirm_completion)"
         endif
     else
         return "\n"
@@ -345,11 +438,6 @@ execute "set colorcolumn=" . join(range(81,400), ',')
 " Don't auto-insert comment header on newline, and don't auto-wrap long lines
 au FileType * set fo-=r fo-=o fo+=l
 
-" Command-T search config
-let g:CommandTFileScanner = "find"
-let g:CommandTMaxFiles = 250000
-let g:CommandTSuppressMaxFilesWarning = 1
-
 " Auto-nohlsearch
 set hlsearch
 nnoremap <silent> <Esc> :<C-u>nohlsearch<CR>
@@ -357,10 +445,9 @@ nnoremap <silent> <Esc> :<C-u>nohlsearch<CR>
 " Required for autoread
 au FocusGained,BufEnter * :silent! !
 
-" Highlight trailing whitespace
-highlight ExtraWhite ctermbg=darkred guibg=lightred
-autocmd Syntax * syn match ExtraWhite /\s\+$/ containedin=ALL
-autocmd colorscheme * highlight ExtraWhite ctermbg=darkred guibg=lightred
+" Further Styling
+highlight LspDiagnosticsError guifg=red
+highlight LspDiagnosticsWarning guifg=yellow
 
 " Include local config
 runtime local.vim
