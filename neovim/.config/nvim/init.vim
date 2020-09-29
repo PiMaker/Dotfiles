@@ -144,7 +144,7 @@ let NERDTreeAutoDeleteBuffer=1
 let g:git_messenger_always_into_popup=1
 
 " Go to definition
-nnoremap <silent> gd g]1<CR>
+nnoremap <silent> gd g]
 au FileType rust nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
@@ -274,7 +274,7 @@ com! FormatJSON %!python -m json.tool
 nnoremap c "_c
 nnoremap cc "_S
 nnoremap C "_C
-nnoremap dd "_dd
+nnoremap dd "+dd
 nnoremap X "+dd
 nnoremap x "_d1<Right>
 xnoremap p "_dP
