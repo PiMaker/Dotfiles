@@ -294,6 +294,7 @@ set completeopt=menuone,noinsert,noselect
 set shortmess+=c
 
 let g:completion_enable_snippet = 'vim-vsnip'
+let g:completion_trigger_on_delete = 1
 
 " Configure LSP
 " https://github.com/neovim/nvim-lspconfig#rust_analyzer
@@ -311,26 +312,29 @@ end
 
 -- Enable rust_analyzer
 nvim_lsp.rust_analyzer.setup({ on_attach=on_attach })
+nvim_lsp.ccls.setup({ on_attach=on_attach })
 
 EOF
 
 " Setup sources
 let g:completion_chain_complete_list = {
       \ 'default': [
-      \    {'complete_items': ['buffer', 'tags']},
+      \    {'complete_items': ['buffer', 'tags', 'path']},
       \ ],
       \ 'c': [
-      \    {'complete_items': ['ts']},
+      \    {'complete_items': ['lsp']},
       \ ],
       \ 'rust': [
       \    {'complete_items': ['lsp']},
       \ ],
 \ }
+let g:completion_matching_strategy_list = ['exact', 'fuzzy']
 
 autocmd BufEnter * lua require'completion'.on_attach()
 
 " Code navigation shortcuts
-nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+au FileType rust nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+au FileType c nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 " nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
@@ -413,6 +417,12 @@ function! s:cr_function()
     endif
 endfunction
 inoremap <silent> <CR> <C-r>=<SID>cr_function()<CR>
+
+" Snippet movement (done after <TAB> completion code above, to take precedence)
+imap <expr> <Tab>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<Tab>'
+smap <expr> <Tab>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<Tab>'
+imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
 
 " tabline and themes
 let g:airline#extensions#tabline#enabled = 1
