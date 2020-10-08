@@ -66,8 +66,6 @@ Plug 'unblevable/quick-scope'
 Plug 'justinmk/vim-sneak'
 Plug 'kana/vim-textobj-user'
 Plug 'wellle/targets.vim'
-Plug 'michaeljsmith/vim-indent-object'
-Plug 'glts/vim-textobj-comment'
 
 " Styling
 Plug 'vim-airline/vim-airline'
@@ -385,6 +383,7 @@ function! s:check_back_space() abort "{{{
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction"}}}
 imap <silent><expr> <TAB>
+      \ vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' :
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ "\<c-p>"
@@ -393,6 +392,7 @@ imap <silent><expr> <C-Space>
       \ <SID>check_back_space() ? "\<Space>" :
       \ "\<c-p>"
 imap <silent><expr> <S-TAB>
+      \ vsnip#available(1) ? '<Plug>(vsnip-jump-prev)' :
       \ pumvisible() ? "\<C-p>" :
       \ <SID>check_back_space() ? "\<Backspace>" :
       \ "\<c-p>"
@@ -418,11 +418,12 @@ function! s:cr_function()
 endfunction
 inoremap <silent> <CR> <C-r>=<SID>cr_function()<CR>
 
-" Snippet movement (done after <TAB> completion code above, to take precedence)
-imap <expr> <Tab>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<Tab>'
-smap <expr> <Tab>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<Tab>'
-imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+" Snippet movement
+smap <expr> <Tab>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '\<Tab>'
+smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '\<S-Tab>'
+snoremap K K
+snoremap J J
+snoremap gx gx
 
 " tabline and themes
 let g:airline#extensions#tabline#enabled = 1
