@@ -36,6 +36,9 @@ set gdefault                   " Automatically add /g behind regex substitutions
 set relativenumber             " Relative line numbers
 set list
 
+" Enable persistent undo so that undo history persists across vim sessions
+set undofile
+set undodir=~/.config/nvim/undo
 
 " Plug config (Plugin list)
 call plug#begin()
@@ -43,6 +46,7 @@ call plug#begin()
 " Version control
 Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/git-messenger.vim'
+Plug 'simnalamburt/vim-mundo'
 
 " Misc
 Plug 'tpope/vim-sensible'
@@ -277,6 +281,12 @@ nnoremap dd "+dd
 nnoremap X "+dd
 nnoremap x "_d1<Right>
 xnoremap p "_dP
+
+" Undo Tree
+nnoremap <F4> :MundoToggle<CR>
+let g:mundo_width = 70
+let g:mundo_preview_height = 30
+let g:mundo_right = 1
 
 
 " Autocomplete stuff
