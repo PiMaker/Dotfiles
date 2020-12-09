@@ -3,5 +3,6 @@
 		<div xmlns="http://www.w3.org/1999/xhtml">
 			<h2>Hello from the SVG side</h2>
 		</div>
+		<script>alert("Hello world!")</script>
 	</foreignObject>
 </svg>
