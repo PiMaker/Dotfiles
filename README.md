@@ -11,3 +11,7 @@ You know why you're here, get inspired (or Ctrl-C/Ctrl-V-ing)!
 ## Stow
 
 Dotfiles are managed using Stow, but you can also just look at the Makefile to see how everything works.
+
+# Test
+
+<img src="header.svg" width="800" height="400">
