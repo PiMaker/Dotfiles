@@ -14,4 +14,4 @@ Dotfiles are managed using Stow, but you can also just look at the Makefile to s
 
 # Test
 
-<img src="header.svg" width="800" height="400">
+<img src="test.svg" width="800" height="400">
