@@ -306,8 +306,8 @@ let g:completion_trigger_on_delete = 1
 " https://github.com/neovim/nvim-lspconfig#rust_analyzer
 lua <<EOF
 
--- nvim_lsp object
-local nvim_lsp = require'nvim_lsp'
+-- lspconfig object
+local nvim_lsp = require'lspconfig'
 
 -- function to attach completion and diagnostics
 -- when setting up lsp
