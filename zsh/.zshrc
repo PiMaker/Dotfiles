@@ -103,8 +103,8 @@ zstyle :bracketed-paste-magic paste-init backward-extend-paste
 
 # Kitty setup
 if [ "$TERM" = "xterm-kitty" ]; then
-    autoload -Uz compinit
-    compinit
+    # autoload -Uz compinit
+    # compinit
     kitty + complete setup zsh | source /dev/stdin
 fi
 

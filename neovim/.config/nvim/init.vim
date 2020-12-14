@@ -91,8 +91,6 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'tjdevries/lsp_extensions.nvim'
 " Autocompletion framework for built-in LSP
 Plug 'nvim-lua/completion-nvim'
-" Diagnostic navigation and settings for built-in LSP
-Plug 'nvim-lua/diagnostic-nvim'
 
 Plug 'steelsojka/completion-buffers'
 Plug 'nvim-treesitter/nvim-treesitter'
@@ -315,12 +313,23 @@ local nvim_lsp = require'nvim_lsp'
 -- when setting up lsp
 local on_attach = function(client)
     require'completion'.on_attach(client)
-    require'diagnostic'.on_attach(client)
 end
 
 -- Enable rust_analyzer
 nvim_lsp.rust_analyzer.setup({ on_attach=on_attach })
 nvim_lsp.ccls.setup({ on_attach=on_attach })
+
+-- Diagnostics config
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    underline = true,
+    virtual_text = {
+        prefix = "🗲 ",
+    },
+    signs = true,
+    update_in_insert = false,
+  }
+)
 
 EOF
 
@@ -361,8 +370,8 @@ let g:diagnostic_virtual_text_prefix = '🗲 '
 let g:diagnostic_insert_delay = 1
 
 " Goto previous/next diagnostic warning/error
-nnoremap <silent> dN <cmd>PrevDiagnosticCycle<cr>
-nnoremap <silent> dn <cmd>NextDiagnosticCycle<cr>
+nnoremap <silent> dN <cmd>vim.lsp.diagnostic.goto_prev()<cr>
+nnoremap <silent> dn <cmd>vim.lsp.diagnostic.goto_next()<cr>
 
 " Enable type inlay hints
 autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
@@ -467,8 +476,12 @@ nnoremap <silent> <Esc> :<C-u>nohlsearch<CR>
 au FocusGained,BufEnter * :silent! !
 
 " Further Styling
-highlight LspDiagnosticsError guifg=red
-highlight LspDiagnosticsWarning guifg=yellow
+highlight LspDiagnosticsVirtualTextError guifg=red
+highlight LspDiagnosticsVirtualTextWarning guifg=yellow
+highlight LspDiagnosticsSignError guifg=red
+highlight LspDiagnosticsSignWarning guifg=yellow
+highlight LspDiagnosticsUnderlineError gui=undercurl guisp=red term=undercurl cterm=undercurl
+highlight LspDiagnosticsUnderlineWarning gui=undercurl guisp=yellow term=undercurl cterm=undercurl
 
 " Include local config
 runtime local.vim
