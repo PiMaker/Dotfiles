@@ -1,7 +1,7 @@
 function nanowd() {
     GIT_ROOT="$(git rev-parse --show-toplevel)/"
     nvim $(git status --porcelain \
-        | grep '^\s*M\s*\S' \
+        | grep '^\s*[MA]\s*\S' \
         | cut -d ' ' -f 3 \
         | sed -e "s|^|$GIT_ROOT|g" \
         | tr "\n" ' ')
