@@ -106,6 +106,7 @@ if [ "$TERM" = "xterm-kitty" ]; then
     # autoload -Uz compinit
     # compinit
     kitty + complete setup zsh | source /dev/stdin
+    alias icat="kitty +kitten icat"
 fi
 
 # Termite setup
