@@ -56,6 +56,7 @@ Plug 'haya14busa/incsearch.vim'
 Plug 'pablopunk/persistent-undo.vim'
 Plug 'christianrondeau/vim-base64'
 Plug 'farmergreg/vim-lastplace'
+Plug 'ojroques/vim-oscyank'
 
 " Code style
 Plug 'tpope/vim-commentary'
@@ -173,11 +174,6 @@ nnoremap <c-s> <esc>:w<CR>
 inoremap <c-s> <esc>:w<CR>
 xnoremap <c-s> <esc>:w<CR>
 
-" Ctrl-(shift)-c copies in visual mode
-" It does via the "remote-clip.sh" script, thus also allowing copy over SSH
-xnoremap <c-c> :w !~/.config/nvim/remote-clip.sh<CR><CR>
-xnoremap <c-s-c> :w !~/.config/nvim/remote-clip.sh<CR><CR>
-
 " Make <del> delete, not cut characters
 noremap <del> "_x
 
@@ -270,15 +266,6 @@ inoremap {<CR> {<CR>}<C-o>O
 
 " Format JSON with Python's help
 com! FormatJSON %!python -m json.tool
-
-" vim-cutlass, but better and DIY
-nnoremap c "_c
-nnoremap cc "_S
-nnoremap C "_C
-nnoremap dd "+dd
-nnoremap X "+dd
-nnoremap x "_d1<Right>
-xnoremap p "_dP
 
 " Undo Tree
 nnoremap <F4> :MundoToggle<CR>
@@ -376,6 +363,38 @@ nnoremap <silent> dn <cmd>vim.lsp.diagnostic.goto_next()<cr>
 " Enable type inlay hints
 autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
 \ lua require'lsp_extensions'.inlay_hints{ prefix = ' ⪢  ', highlight = "Comment" }
+
+
+" OSC52 copy sequence
+function! s:ocs_yd(monika)
+  " detect empty lines and do not put into register/clipboard
+  let r = getline('.')
+  if r =~ '^\s*$'
+    if a:monika
+      return "\"_dd"
+    else
+      return "\"+yy"
+    endif
+  else
+    return "\"+yy:OSCYankReg +\n" . (a:monika ? "\"_dd" : "")
+  endif
+endfunction
+
+nnoremap <silent><expr> dd <SID>ocs_yd(1)
+nmap X dd
+nnoremap <silent><expr> yy <SID>ocs_yd(0)
+xnoremap y "+y:OSCYankReg +<CR>
+xnoremap d "+d:OSCYankReg +<CR>
+
+" vim-cutlass, but better and DIY
+" delete a single char
+nnoremap x "_d1<Right>
+" over-paste in visual mode
+xnoremap p "_dP
+" change parts of line
+nnoremap cc "aS
+nnoremap C "aC
+nnoremap c "ac
 
 
 " Don't save changes to a directory
