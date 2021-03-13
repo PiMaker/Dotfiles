@@ -88,11 +88,19 @@ click-left = sudo ddcutil setvcp 10 100
 [module/virt]
 type = custom/script
 exec = ~/Documents/Passthru/vm_status.sh
-interval = 3
+interval = 4
 format-underline = ${colors.primary}
 format-prefix = " "
 click-left = ~/Documents/Passthru/vm_shield.sh
 click-right = ~/Documents/Passthru/vm_shield.sh
+format-prefix-foreground = ${colors.foreground-alt}
+
+[module/dmesg]
+type = custom/script
+exec = ~/Repos/dmesg_status/target/release/dmesg_status
+interval = 2
+format-underline = ${colors.primary}
+format-prefix = "! "
 format-prefix-foreground = ${colors.foreground-alt}
 
 [module/arch]

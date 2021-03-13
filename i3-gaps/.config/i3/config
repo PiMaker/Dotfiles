@@ -40,6 +40,9 @@ bindsym $mod+Ctrl+Right exec --no-startup-id ~/.config/i3/switch_mon.sh right
 
 bindsym $mod+m exec --no-startup-id ~/.config/i3/vm-attach.sh attach
 
+bindsym Print exec --no-startup-id flameshot gui
+bindsym $mod+Print exec --no-startup-id flameshot gui
+
 # Focus
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
