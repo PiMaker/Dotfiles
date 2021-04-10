@@ -82,6 +82,9 @@ alias rtfm=man
 alias xclip='xclip -selection clipboard'
 alias atop2='echo "i2\nt" | atop'
 
+# useful shortcuts
+alias mp="mpv \"\$(ls -th --file-type | grep -v '/$' | fzf)\""
+
 # To allow alias expansion in sudo commands and provide zsudo to run zsh
 # functions as root
 alias sudo='sudo '
@@ -102,7 +105,7 @@ zle -N bracketed-paste bracketed-paste-magic
 zstyle :bracketed-paste-magic paste-init backward-extend-paste
 
 # Kitty setup
-if [ "$TERM" = "xterm-kitty" ]; then
+if [ "$TERM" = "xterm-kitty" ] && command -v kitty >/dev/null; then
     # autoload -Uz compinit
     # compinit
     kitty + complete setup zsh | source /dev/stdin
