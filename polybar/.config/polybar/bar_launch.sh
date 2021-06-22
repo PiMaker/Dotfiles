@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
+# export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
 SCRIPT=$0
 
 echo "bar_launch script"
