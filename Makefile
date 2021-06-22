@@ -35,7 +35,7 @@ zsh-plugins: stow
 		$(PURE_DIR)
 	cd $(PURE_DIR) && (git status || (git checkout -b $(shell date +"%d-%m-%Y_%H-%M-%S") && \
 		git commit -a -m "backup-commit")) && \
-		git checkout master && git reset --hard HEAD && \
+		git checkout main && git reset --hard HEAD && \
 		git pull --rebase
 	chmod -R a+rx $(PURE_DIR)
 	chmod a+rx $(PURE_DIR)
