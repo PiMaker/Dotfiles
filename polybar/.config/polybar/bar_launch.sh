@@ -14,11 +14,12 @@ if (( RETRY > 5 )); then
 fi
 
 # Default systray mon specified here:
-SYSTRAY_MON="${SYSTRAY_MON:-DP-4}"
+SYSTRAY_MON="${SYSTRAY_MON:-DisplayPort-0}"
 
 if [ -z "$MONITOR" ]; then
   echo "No monitor specified, doing them all."
   killall polybar || true
+  killall pulseaudio-events || true
 
   for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
     echo "Doing monitor: $m"
