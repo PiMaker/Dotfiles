@@ -41,8 +41,8 @@ include-file = $HOME/.config/polybar/config.modules
 tray-position = ${env:SYSTRAY}
 tray-padding = 2
 
-scroll-up = i3wm-wsnext
-scroll-down = i3wm-wsprev
+scroll-down = i3wm-wsnext
+scroll-up = i3wm-wsprev
 
 [module/now-playing]
 type = custom/script
@@ -387,7 +387,7 @@ format-warn-prefix = " "
 
 [module/temperature_amd]
 type = internal/temperature
-hwmon-path = /sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon1/temp1_input
+hwmon-path = /sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon0/temp1_input
 warn-temperature = 80
 
 format = <label>
