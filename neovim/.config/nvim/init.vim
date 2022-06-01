@@ -18,6 +18,7 @@ set linebreak                  " Avoid wrapping lines in the middle of a word.
 set number                     " Line numbers
 set expandtab shiftround smartindent autoindent
 set shiftwidth=4
+set tabstop=4
 set scrolloff=4                " Start scrolling when we're 4 lines away from margins
 set sidescrolloff=10           " Same thing for side scrolling
 set sidescroll=1
@@ -102,6 +103,8 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'chengzeyi/fzf-preview.vim'
 Plug 'jremmen/vim-ripgrep'
+
+Plug 'github/copilot.vim'
 
 " Load icons last
 Plug 'ryanoasis/vim-devicons'
@@ -302,7 +305,7 @@ local on_attach = function(client)
     require'completion'.on_attach(client)
 end
 
--- Enable rust_analyzer
+-- Enable rust_analyzer and ccls
 nvim_lsp.rust_analyzer.setup({ on_attach=on_attach })
 nvim_lsp.ccls.setup({ on_attach=on_attach })
 
@@ -361,7 +364,7 @@ nnoremap <silent> dN <cmd>vim.lsp.diagnostic.goto_prev()<cr>
 nnoremap <silent> dn <cmd>vim.lsp.diagnostic.goto_next()<cr>
 
 " Enable type inlay hints
-autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
+autocmd FileType rust autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
 \ lua require'lsp_extensions'.inlay_hints{ prefix = ' ⪢  ', highlight = "Comment" }
 
 

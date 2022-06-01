@@ -5,7 +5,7 @@ export DISABLE_AUTO_UPDATE=true
 # Fix annoying error when running as root
 ZSH_DISABLE_COMPFIX="true"
 
-plugins=(git extract k wd fast-syntax-highlighting zsh-autosuggestions history-search-multi-word colored-man-pages fancy-ctrl-z forgit undollar z fzf-z warhol calc zsh_reload)
+plugins=(git extract k wd fast-syntax-highlighting zsh-autosuggestions history-search-multi-word colored-man-pages fancy-ctrl-z forgit undollar z fzf-z warhol calc)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -66,6 +66,9 @@ export EDITOR=nvim
 alias vi=vim
 alias vim=nvim
 alias nano=nvim
+
+unalias grc
+[[ -s "/etc/grc.zsh" ]] && source /etc/grc.zsh
 
 # The flesh is weak
 alias c=cd
