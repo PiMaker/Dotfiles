@@ -110,7 +110,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'chengzeyi/fzf-preview.vim'
 Plug 'jremmen/vim-ripgrep'
 
-Plug 'github/copilot.vim'
+" Plug 'github/copilot.vim'
 
 " Load icons last
 Plug 'ryanoasis/vim-devicons'
