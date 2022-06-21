@@ -1,10 +1,10 @@
 function nanowd() {
     GIT_ROOT="$(git rev-parse --show-toplevel)/"
     nvim $(git status --porcelain \
-        | grep '^\s*M\s*\S' \
+        | grep '^\s*[MA]\s*\S' \
         | cut -d ' ' -f 3 \
         | sed -e "s|^|$GIT_ROOT|g" \
-        | tr "\n" ' ')
+        | tr "\n" ' ') "$@"
 }
 
 function nanocom() {
@@ -13,7 +13,7 @@ function nanocom() {
         | tail --lines=+2 \
         | grep -E '^[AM]' \
         | cut -f2 \
-        | sed -e "s|^|$GIT_ROOT|g")
+        | sed -e "s|^|$GIT_ROOT|g") "$@"
 }
 
 

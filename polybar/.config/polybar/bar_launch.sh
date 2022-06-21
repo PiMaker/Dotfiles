@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
+# export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
 SCRIPT=$0
 
 echo "bar_launch script"
@@ -14,11 +14,12 @@ if (( RETRY > 5 )); then
 fi
 
 # Default systray mon specified here:
-SYSTRAY_MON="${SYSTRAY_MON:-HDMI-A-0}"
+SYSTRAY_MON="${SYSTRAY_MON:-DisplayPort-0}"
 
 if [ -z "$MONITOR" ]; then
   echo "No monitor specified, doing them all."
   killall polybar || true
+  killall pulseaudio-events || true
 
   for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
     echo "Doing monitor: $m"

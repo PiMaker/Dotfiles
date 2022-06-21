@@ -41,8 +41,17 @@ include-file = $HOME/.config/polybar/config.modules
 tray-position = ${env:SYSTRAY}
 tray-padding = 2
 
-scroll-up = i3wm-wsnext
-scroll-down = i3wm-wsprev
+scroll-down = i3wm-wsnext
+scroll-up = i3wm-wsprev
+
+[module/now-playing]
+type = custom/script
+tail = true
+;format-prefix = ""
+format = <label>
+exec = $HOME/.config/polybar/polybar-now-playing
+; click-right = "kill -USR1 $(pgrep --oldest --parent %pid%)"
+click-right = "kill -USR1 %pid%"
 
 [module/pulseaudio-rofi-output]
 type = custom/script
@@ -88,11 +97,19 @@ click-left = sudo ddcutil setvcp 10 100
 [module/virt]
 type = custom/script
 exec = ~/Documents/Passthru/vm_status.sh
-interval = 3
+interval = 4
 format-underline = ${colors.primary}
 format-prefix = " "
 click-left = ~/Documents/Passthru/vm_shield.sh
 click-right = ~/Documents/Passthru/vm_shield.sh
+format-prefix-foreground = ${colors.foreground-alt}
+
+[module/dmesg]
+type = custom/script
+exec = ~/Repos/dmesg_status/target/release/dmesg_status
+interval = 2
+format-underline = ${colors.primary}
+format-prefix = "! "
 format-prefix-foreground = ${colors.foreground-alt}
 
 [module/arch]
@@ -370,7 +387,7 @@ format-warn-prefix = " "
 
 [module/temperature_amd]
 type = internal/temperature
-hwmon-path = /sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon1/temp1_input
+hwmon-path = /sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon0/temp1_input
 warn-temperature = 80
 
 format = <label>

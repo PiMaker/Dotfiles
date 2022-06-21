@@ -5,7 +5,7 @@ export DISABLE_AUTO_UPDATE=true
 # Fix annoying error when running as root
 ZSH_DISABLE_COMPFIX="true"
 
-plugins=(git extract k wd fast-syntax-highlighting zsh-autosuggestions history-search-multi-word colored-man-pages fancy-ctrl-z forgit undollar z fzf-z warhol calc zsh_reload)
+plugins=(git extract k wd F-Sy-H zsh-autosuggestions H-S-MW colored-man-pages fancy-ctrl-z forgit undollar z fzf-z warhol calc)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -67,6 +67,9 @@ alias vi=vim
 alias vim=nvim
 alias nano=nvim
 
+unalias grc
+[[ -s "/etc/grc.zsh" ]] && source /etc/grc.zsh
+
 # The flesh is weak
 alias c=cd
 alias n=nano
@@ -81,6 +84,9 @@ alias zshnohist='env HISTFILE="/dev/null" zsh'
 alias rtfm=man
 alias xclip='xclip -selection clipboard'
 alias atop2='echo "i2\nt" | atop'
+
+# useful shortcuts
+alias mp="mpv \"\$(ls -th --file-type | grep -v '/$' | fzf)\""
 
 # To allow alias expansion in sudo commands and provide zsudo to run zsh
 # functions as root
@@ -102,10 +108,11 @@ zle -N bracketed-paste bracketed-paste-magic
 zstyle :bracketed-paste-magic paste-init backward-extend-paste
 
 # Kitty setup
-if [ "$TERM" = "xterm-kitty" ]; then
-    autoload -Uz compinit
-    compinit
+if [ "$TERM" = "xterm-kitty" ] && command -v kitty >/dev/null; then
+    # autoload -Uz compinit
+    # compinit
     kitty + complete setup zsh | source /dev/stdin
+    alias icat="kitty +kitten icat"
 fi
 
 # Termite setup

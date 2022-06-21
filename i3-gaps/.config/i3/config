@@ -3,13 +3,13 @@ set $mod Mod4
 new_window pixel 1
 new_float normal
 
-hide_edge_borders none
+hide_edge_borders both
 
 font xft:Source Code Pro 12
 
 floating_modifier $mod
 
-bindsym $mod+Return exec termite
+bindsym $mod+Return exec kitty
 bindsym $mod+Shift+Return exec --no-startup-id terminator
 
 # Window kill command
@@ -39,6 +39,9 @@ bindsym $mod+Ctrl+Left exec --no-startup-id ~/.config/i3/switch_mon.sh left
 bindsym $mod+Ctrl+Right exec --no-startup-id ~/.config/i3/switch_mon.sh right
 
 bindsym $mod+m exec --no-startup-id ~/.config/i3/vm-attach.sh attach
+
+bindsym Print exec --no-startup-id flameshot gui
+bindsym $mod+Print exec --no-startup-id flameshot gui
 
 # Focus
 bindsym $mod+Left focus left
@@ -227,6 +230,6 @@ client.background #1c1c22
 #gaps inner 10
 #gaps outer -4
 
-smart_gaps on
-smart_borders on
+# smart_gaps on
+# smart_borders on
 

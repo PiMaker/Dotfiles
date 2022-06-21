@@ -18,6 +18,7 @@ set linebreak                  " Avoid wrapping lines in the middle of a word.
 set number                     " Line numbers
 set expandtab shiftround smartindent autoindent
 set shiftwidth=4
+set tabstop=4
 set scrolloff=4                " Start scrolling when we're 4 lines away from margins
 set sidescrolloff=10           " Same thing for side scrolling
 set sidescroll=1
@@ -34,7 +35,12 @@ set gdefault                   " Automatically add /g behind regex substitutions
 "set list                      " Visualize tabs
 "set listchars=tab:>\ 
 set relativenumber             " Relative line numbers
+set list
+set nofixendofline
 
+" Enable persistent undo so that undo history persists across vim sessions
+set undofile
+set undodir=~/.config/nvim/undo
 
 " Plug config (Plugin list)
 call plug#begin()
@@ -42,6 +48,7 @@ call plug#begin()
 " Version control
 Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/git-messenger.vim'
+Plug 'simnalamburt/vim-mundo'
 
 " Misc
 Plug 'tpope/vim-sensible'
@@ -51,6 +58,7 @@ Plug 'haya14busa/incsearch.vim'
 Plug 'pablopunk/persistent-undo.vim'
 Plug 'christianrondeau/vim-base64'
 Plug 'farmergreg/vim-lastplace'
+Plug 'ojroques/vim-oscyank'
 
 " Code style
 Plug 'tpope/vim-commentary'
@@ -65,32 +73,44 @@ Plug 'unblevable/quick-scope'
 Plug 'justinmk/vim-sneak'
 Plug 'kana/vim-textobj-user'
 Plug 'wellle/targets.vim'
-Plug 'michaeljsmith/vim-indent-object'
-Plug 'glts/vim-textobj-comment'
 
 " Styling
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree'
+Plug 'baopham/vim-nerdtree-unfocus'
 Plug 'luochen1990/rainbow'
 Plug 'lithammer/vim-eighties'
 
 " Syntax/Autocomplete
 Plug 'sheerun/vim-polyglot'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'fszymanski/deoplete-emoji'
-Plug 'mvgrimes/vim-trackperlvars'
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
+
+" Collection of common configurations for the Nvim LSP client
+Plug 'neovim/nvim-lspconfig'
+" Extensions to built-in LSP, for example, providing type inlay hints
+" Plug 'tjdevries/lsp_extensions.nvim'
+" Autocompletion framework for built-in LSP
+" Plug 'nvim-lua/completion-nvim'
+Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
+Plug 'ms-jpq/coq.thirdparty', {'branch': '3p'}
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
+
+Plug 'ludovicchabant/vim-gutentags'
 
 " Tools
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'chengzeyi/fzf-preview.vim'
 Plug 'jremmen/vim-ripgrep'
+
+Plug 'github/copilot.vim'
 
 " Load icons last
 Plug 'ryanoasis/vim-devicons'
@@ -133,21 +153,11 @@ nnoremap k gk
 nnoremap / /\v
 vnoremap / /\v
 
-" Nerdtree
-map <F2> :NERDTreeToggle<CR>
-let NERDTreeWinSize=32
-let NERDTreeWinPos="left"
-let NERDTreeShowHidden=1
-let NERDTreeAutoDeleteBuffer=1
-
 " Git messenger (<Leader>gm)
 let g:git_messenger_always_into_popup=1
 
 " Go to definition
 nnoremap <silent> gd g]
-au FileType rust nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 " Tagbar
 nnoremap <F8> :TagbarToggle<CR> <bar> <c-w>l
@@ -165,11 +175,6 @@ inoremap <c-c> <esc>
 nnoremap <c-s> <esc>:w<CR>
 inoremap <c-s> <esc>:w<CR>
 xnoremap <c-s> <esc>:w<CR>
-
-" Ctrl-(shift)-c copies in visual mode
-" It does via the "remote-clip.sh" script, thus also allowing copy over SSH
-xnoremap <c-c> :w !~/.config/nvim/remote-clip.sh<CR><CR>
-xnoremap <c-s-c> :w !~/.config/nvim/remote-clip.sh<CR><CR>
 
 " Make <del> delete, not cut characters
 noremap <del> "_x
@@ -243,12 +248,6 @@ xnoremap <A-k> :m '<-2<CR>gv=gv
 nmap <Leader>hn <Plug>(GitGutterNextHunk)
 nmap <Leader>hN <Plug>(GitGutterPrevHunk)
 
-" LanguageClient
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rust-analyzer'],
-    \ }
-
 " Disable weird command window when quickly pressing q: instead of :q
 nnoremap q: :
 " but still allow quick exit from Macro recording mode
@@ -270,14 +269,141 @@ inoremap {<CR> {<CR>}<C-o>O
 " Format JSON with Python's help
 com! FormatJSON %!python -m json.tool
 
+" Undo Tree
+nnoremap <F4> :MundoToggle<CR>
+let g:mundo_width = 70
+let g:mundo_preview_height = 30
+let g:mundo_right = 1
+
+
+" Autocomplete stuff
+
+" Set completeopt to have a better completion experience
+" :help completeopt
+" menuone: popup even when there's only one match
+" noinsert: Do not insert text until a selection is made
+" noselect: Do not select, force user to select one from the menu
+set completeopt=menuone,noinsert,noselect
+
+" Avoid showing extra messages when using completion
+set shortmess+=c
+
+let g:completion_enable_snippet = 'vim-vsnip'
+let g:completion_trigger_on_delete = 1
+
+let g:coq_settings = { 'auto_start': 'shut-up' }
+
+" Configure LSP
+" https://github.com/neovim/nvim-lspconfig#rust_analyzer
+lua <<EOF
+
+-- lspconfig object
+local nvim_lsp = require'lspconfig'
+local coq = require'coq'
+
+local on_attach_js = function(client)
+    require('nvim-lsp-ts-utils').setup({
+        filter_out_diagnostics_by_code = { 80001 },
+    })
+    require('nvim-lsp-ts-utils').setup_client(client)
+end
+
+-- Enable rust_analyzer and ccls
+nvim_lsp.rust_analyzer.setup(coq.lsp_ensure_capabilities())
+nvim_lsp.ccls.setup(coq.lsp_ensure_capabilities())
+nvim_lsp.tsserver.setup(coq.lsp_ensure_capabilities({ on_attach=on_attach_js }))
+
+-- Diagnostics config
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    underline = true,
+    virtual_text = {
+        prefix = "🗲 ",
+    },
+    signs = true,
+    update_in_insert = false,
+  }
+)
+
+EOF
+
+" Setup sources
+let g:completion_chain_complete_list = {
+      \ 'default': [
+      \    {'complete_items': ['buffer', 'tags', 'path']},
+      \ ],
+      \ 'c': [
+      \    {'complete_items': ['lsp']},
+      \ ],
+      \ 'rust': [
+      \    {'complete_items': ['lsp']},
+      \ ],
+      \ 'javascript': [
+      \    {'complete_items': ['lsp']},
+      \ ],
+\ }
+let g:completion_matching_strategy_list = ['exact', 'fuzzy']
+
+" Code navigation shortcuts
+au FileType rust nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+au FileType c nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+au FileType javascript nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+" nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+" nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+" nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+" nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+" nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> <F2>    <cmd>lua vim.lsp.buf.rename()<CR>
+
+" Visualize diagnostics
+let g:diagnostic_enable_virtual_text = 1
+let g:diagnostic_trimmed_virtual_text = '80'
+let g:diagnostic_virtual_text_prefix = '🗲 '
+" Don't show diagnostics while in insert mode
+let g:diagnostic_insert_delay = 1
+
+" Goto previous/next diagnostic warning/error
+nnoremap <silent> dN <cmd>vim.lsp.diagnostic.goto_prev()<cr>
+nnoremap <silent> dn <cmd>vim.lsp.diagnostic.goto_next()<cr>
+
+" Enable type inlay hints
+autocmd FileType rust autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
+\ lua require'lsp_extensions'.inlay_hints{ prefix = ' ⪢  ', highlight = "Comment" }
+
+
+" OSC52 copy sequence
+function! s:ocs_yd(monika)
+  " detect empty lines and do not put into register/clipboard
+  let r = getline('.')
+  if r =~ '^\s*$'
+    if a:monika
+      return "\"_dd"
+    else
+      return "\"+yy"
+    endif
+  else
+    return "\"+yy:OSCYankReg +\n" . (a:monika ? "\"_dd" : "")
+  endif
+endfunction
+
+nnoremap <silent><expr> dd <SID>ocs_yd(1)
+nmap X dd
+nnoremap <silent><expr> yy <SID>ocs_yd(0)
+xnoremap y "+y:OSCYankReg +<CR>
+xnoremap d "+d:OSCYankReg +<CR>
+
 " vim-cutlass, but better and DIY
-nnoremap c "_c
-nnoremap cc "_S
-nnoremap C "_C
-nnoremap dd "+dd
-nnoremap X "+dd
+" delete a single char
 nnoremap x "_d1<Right>
+" over-paste in visual mode
 xnoremap p "_dP
+" change parts of line
+nnoremap cc "aS
+nnoremap C "aC
+nnoremap c "ac
 
 
 " Don't save changes to a directory
@@ -297,30 +423,25 @@ autocmd BufWritePost * GitGutter
 let g:gitgutter_sign_allow_clobber = 1
 let g:gitgutter_preview_win_floating = 0
 
-" Deoplete
-set completeopt-=preview
-let g:deoplete#enable_at_startup = 1
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | silent! pclose | endif
-call deoplete#custom#source('emoji', 'converters', ['converter_emoji'])
-set pumheight=20
-
 " Make it <TAB> completion
 function! s:check_back_space() abort "{{{
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction"}}}
-inoremap <silent><expr> <TAB>
+imap <silent><expr> <TAB>
+      \ vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' :
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
-      \ deoplete#manual_complete()
-inoremap <silent><expr> <C-Space>
+      \ "\<c-p>"
+imap <silent><expr> <C-Space>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<Space>" :
-      \ deoplete#manual_complete()
-inoremap <silent><expr> <S-TAB>
+      \ "\<c-p>"
+imap <silent><expr> <S-TAB>
+      \ vsnip#available(1) ? '<Plug>(vsnip-jump-prev)' :
       \ pumvisible() ? "\<C-p>" :
-      \ <SID>check_back_space() ? "\<C-d>" :
-      \ deoplete#manual_complete()
+      \ <SID>check_back_space() ? "\<Backspace>" :
+      \ "\<c-p>"
 
 inoremap <silent><expr> <Down>
       \ pumvisible() ? "\<C-n>" : "\<Down>"
@@ -328,20 +449,27 @@ inoremap <silent><expr> <Up>
       \ pumvisible() ? "\<C-p>" : "\<Up>"
 
 " Fix <CR> behaviour
-function! s:cr_function()
-    if pumvisible()
-        if empty(v:completed_item)
-            " Quickly select and unselect first element to work around weirdness
-            " with \n sometimes not doing what it's supposed to
-            return "\<C-n>\<C-p>\n"
-        else
-            return deoplete#close_popup()
-        endif
-    else
-        return "\n"
-    endif
-endfunction
-inoremap <silent> <CR> <C-r>=<SID>cr_function()<CR>
+" function! s:cr_function()
+"     if pumvisible()
+"         if empty(v:completed_item)
+"             " Quickly select and unselect first element to work around weirdness
+"             " with \n sometimes not doing what it's supposed to
+"             return "\<C-n>\<C-p>\n"
+"         else
+"             return "\<Plug>(completion_confirm_completion)"
+"         endif
+"     else
+"         return "\n"
+"     endif
+" endfunction
+" inoremap <silent> <CR> <C-r>=<SID>cr_function()<CR>
+
+" Snippet movement
+smap <expr> <Tab>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '\<Tab>'
+smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '\<S-Tab>'
+snoremap K K
+snoremap J J
+snoremap gx gx
 
 " tabline and themes
 let g:airline#extensions#tabline#enabled = 1
@@ -360,17 +488,12 @@ colorscheme eighties
 let g:rainbow_active = 1
 
 " 80 cols
-set colorcolumn=80
-set textwidth=80
-execute "set colorcolumn=" . join(range(81,400), ',')
+set colorcolumn=120
+set textwidth=120
+execute "set colorcolumn=" . join(range(121,400), ',')
 
 " Don't auto-insert comment header on newline, and don't auto-wrap long lines
 au FileType * set fo-=r fo-=o fo+=l
-
-" Command-T search config
-let g:CommandTFileScanner = "find"
-let g:CommandTMaxFiles = 250000
-let g:CommandTSuppressMaxFilesWarning = 1
 
 " Auto-nohlsearch
 set hlsearch
@@ -379,10 +502,25 @@ nnoremap <silent> <Esc> :<C-u>nohlsearch<CR>
 " Required for autoread
 au FocusGained,BufEnter * :silent! !
 
-" Highlight trailing whitespace
-highlight ExtraWhite ctermbg=darkred guibg=lightred
-autocmd Syntax * syn match ExtraWhite /\s\+$/ containedin=ALL
-autocmd colorscheme * highlight ExtraWhite ctermbg=darkred guibg=lightred
+" Further Styling
+highlight LspDiagnosticsVirtualTextError guifg=red
+highlight LspDiagnosticsVirtualTextWarning guifg=yellow
+highlight LspDiagnosticsSignError guifg=red
+highlight LspDiagnosticsSignWarning guifg=yellow
+highlight LspDiagnosticsUnderlineError gui=undercurl guisp=red term=undercurl cterm=undercurl
+highlight LspDiagnosticsUnderlineWarning gui=undercurl guisp=yellow term=undercurl cterm=undercurl
+
+" Nerdtree
+map <F3> :NERDTreeMirror<CR>:NERDTreeToggle<CR>
+map <F4> :wincmd w<CR>
+let NERDTreeWinSize=40
+let NERDTreeWinPos="left"
+let NERDTreeShowHidden=1
+let NERDTreeAutoDeleteBuffer=1
+
+" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
+autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
 
 " Include local config
 runtime local.vim
