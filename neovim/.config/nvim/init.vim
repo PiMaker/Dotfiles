@@ -36,6 +36,7 @@ set gdefault                   " Automatically add /g behind regex substitutions
 "set listchars=tab:>\ 
 set relativenumber             " Relative line numbers
 set list
+set nofixendofline
 
 " Enable persistent undo so that undo history persists across vim sessions
 set undofile
@@ -78,6 +79,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree'
+Plug 'baopham/vim-nerdtree-unfocus'
 Plug 'luochen1990/rainbow'
 Plug 'lithammer/vim-eighties'
 
@@ -90,13 +92,17 @@ Plug 'hrsh7th/vim-vsnip-integ'
 " Collection of common configurations for the Nvim LSP client
 Plug 'neovim/nvim-lspconfig'
 " Extensions to built-in LSP, for example, providing type inlay hints
-Plug 'tjdevries/lsp_extensions.nvim'
+" Plug 'tjdevries/lsp_extensions.nvim'
 " Autocompletion framework for built-in LSP
-Plug 'nvim-lua/completion-nvim'
+" Plug 'nvim-lua/completion-nvim'
+Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
+Plug 'ms-jpq/coq.thirdparty', {'branch': '3p'}
 
-Plug 'steelsojka/completion-buffers'
-Plug 'nvim-treesitter/nvim-treesitter'
-Plug 'nvim-treesitter/completion-treesitter'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
+
+Plug 'ludovicchabant/vim-gutentags'
 
 " Tools
 Plug 'junegunn/fzf'
@@ -146,13 +152,6 @@ nnoremap k gk
 " Better regex searches
 nnoremap / /\v
 vnoremap / /\v
-
-" Nerdtree
-map <F2> :NERDTreeToggle<CR>
-let NERDTreeWinSize=32
-let NERDTreeWinPos="left"
-let NERDTreeShowHidden=1
-let NERDTreeAutoDeleteBuffer=1
 
 " Git messenger (<Leader>gm)
 let g:git_messenger_always_into_popup=1
@@ -292,22 +291,27 @@ set shortmess+=c
 let g:completion_enable_snippet = 'vim-vsnip'
 let g:completion_trigger_on_delete = 1
 
+let g:coq_settings = { 'auto_start': 'shut-up' }
+
 " Configure LSP
 " https://github.com/neovim/nvim-lspconfig#rust_analyzer
 lua <<EOF
 
 -- lspconfig object
 local nvim_lsp = require'lspconfig'
+local coq = require'coq'
 
--- function to attach completion and diagnostics
--- when setting up lsp
-local on_attach = function(client)
-    require'completion'.on_attach(client)
+local on_attach_js = function(client)
+    require('nvim-lsp-ts-utils').setup({
+        filter_out_diagnostics_by_code = { 80001 },
+    })
+    require('nvim-lsp-ts-utils').setup_client(client)
 end
 
 -- Enable rust_analyzer and ccls
-nvim_lsp.rust_analyzer.setup({ on_attach=on_attach })
-nvim_lsp.ccls.setup({ on_attach=on_attach })
+nvim_lsp.rust_analyzer.setup(coq.lsp_ensure_capabilities())
+nvim_lsp.ccls.setup(coq.lsp_ensure_capabilities())
+nvim_lsp.tsserver.setup(coq.lsp_ensure_capabilities({ on_attach=on_attach_js }))
 
 -- Diagnostics config
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -334,14 +338,16 @@ let g:completion_chain_complete_list = {
       \ 'rust': [
       \    {'complete_items': ['lsp']},
       \ ],
+      \ 'javascript': [
+      \    {'complete_items': ['lsp']},
+      \ ],
 \ }
 let g:completion_matching_strategy_list = ['exact', 'fuzzy']
-
-autocmd BufEnter * lua require'completion'.on_attach()
 
 " Code navigation shortcuts
 au FileType rust nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 au FileType c nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+au FileType javascript nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 " nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
@@ -418,7 +424,6 @@ let g:gitgutter_sign_allow_clobber = 1
 let g:gitgutter_preview_win_floating = 0
 
 " Make it <TAB> completion
-imap <silent> <c-p> <Plug>(completion_smart_tab)
 function! s:check_back_space() abort "{{{
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
@@ -444,20 +449,20 @@ inoremap <silent><expr> <Up>
       \ pumvisible() ? "\<C-p>" : "\<Up>"
 
 " Fix <CR> behaviour
-function! s:cr_function()
-    if pumvisible()
-        if empty(v:completed_item)
-            " Quickly select and unselect first element to work around weirdness
-            " with \n sometimes not doing what it's supposed to
-            return "\<C-n>\<C-p>\n"
-        else
-            return "\<Plug>(completion_confirm_completion)"
-        endif
-    else
-        return "\n"
-    endif
-endfunction
-inoremap <silent> <CR> <C-r>=<SID>cr_function()<CR>
+" function! s:cr_function()
+"     if pumvisible()
+"         if empty(v:completed_item)
+"             " Quickly select and unselect first element to work around weirdness
+"             " with \n sometimes not doing what it's supposed to
+"             return "\<C-n>\<C-p>\n"
+"         else
+"             return "\<Plug>(completion_confirm_completion)"
+"         endif
+"     else
+"         return "\n"
+"     endif
+" endfunction
+" inoremap <silent> <CR> <C-r>=<SID>cr_function()<CR>
 
 " Snippet movement
 smap <expr> <Tab>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '\<Tab>'
@@ -483,9 +488,9 @@ colorscheme eighties
 let g:rainbow_active = 1
 
 " 80 cols
-set colorcolumn=80
-set textwidth=80
-execute "set colorcolumn=" . join(range(81,400), ',')
+set colorcolumn=120
+set textwidth=120
+execute "set colorcolumn=" . join(range(121,400), ',')
 
 " Don't auto-insert comment header on newline, and don't auto-wrap long lines
 au FileType * set fo-=r fo-=o fo+=l
@@ -504,6 +509,18 @@ highlight LspDiagnosticsSignError guifg=red
 highlight LspDiagnosticsSignWarning guifg=yellow
 highlight LspDiagnosticsUnderlineError gui=undercurl guisp=red term=undercurl cterm=undercurl
 highlight LspDiagnosticsUnderlineWarning gui=undercurl guisp=yellow term=undercurl cterm=undercurl
+
+" Nerdtree
+map <F3> :NERDTreeMirror<CR>:NERDTreeToggle<CR>
+map <F4> :wincmd w<CR>
+let NERDTreeWinSize=40
+let NERDTreeWinPos="left"
+let NERDTreeShowHidden=1
+let NERDTreeAutoDeleteBuffer=1
+
+" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
+autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
 
 " Include local config
 runtime local.vim
