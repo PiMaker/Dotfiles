@@ -84,6 +84,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'baopham/vim-nerdtree-unfocus'
 Plug 'luochen1990/rainbow'
 Plug 'lithammer/vim-eighties'
+Plug 'Xuyuanp/scrollbar.nvim'
 
 " Syntax/Autocomplete
 Plug 'sheerun/vim-polyglot'
@@ -112,7 +113,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'chengzeyi/fzf-preview.vim'
 Plug 'jremmen/vim-ripgrep'
 
-" Plug 'github/copilot.vim'
+Plug 'github/copilot.vim'
 
 " Load icons last
 Plug 'ryanoasis/vim-devicons'
@@ -127,6 +128,9 @@ source $HOME/.config/nvim/starsearch.vim
 
 " Remap leader key
 let mapleader = "\<space>"
+
+" Disable Copilot by default
+let g:copilot_enabled = 0
 
 " FZF (+preview) binding
 let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs'
@@ -293,7 +297,8 @@ set shortmess+=c
 let g:completion_enable_snippet = 'vim-vsnip'
 let g:completion_trigger_on_delete = 1
 
-let g:coq_settings = { 'auto_start': 'shut-up' }
+" 🐓 Coq completion settings
+let g:coq_settings = { 'auto_start': 'shut-up', "keymap.recommended": v:false }
 
 " Configure LSP
 " https://github.com/neovim/nvim-lspconfig#rust_analyzer
@@ -345,6 +350,14 @@ let g:completion_chain_complete_list = {
       \ ],
 \ }
 let g:completion_matching_strategy_list = ['exact', 'fuzzy']
+
+" Coq Keybindings
+ino <silent><expr> <Esc>   pumvisible() ? "\<C-e><Esc>" : "\<Esc>"
+ino <silent><expr> <C-c>   pumvisible() ? "\<C-e><C-c>" : "\<C-c>"
+ino <silent><expr> <BS>    pumvisible() ? "\<C-e><BS>"  : "\<BS>"
+ino <silent><expr> <CR>    pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"
+ino <silent><expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+ino <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<BS>"
 
 " Code navigation shortcuts
 au FileType rust nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
@@ -532,6 +545,14 @@ highlight LspDiagnosticsSignError guifg=red
 highlight LspDiagnosticsSignWarning guifg=yellow
 highlight LspDiagnosticsUnderlineError gui=undercurl guisp=red term=undercurl cterm=undercurl
 highlight LspDiagnosticsUnderlineWarning gui=undercurl guisp=yellow term=undercurl cterm=undercurl
+
+" Scrollbar
+augroup ScrollbarInit
+  autocmd!
+  autocmd WinScrolled,VimResized,QuitPre * silent! lua require('scrollbar').show()
+  autocmd WinEnter,FocusGained           * silent! lua require('scrollbar').show()
+  autocmd WinLeave,BufLeave,BufWinLeave,FocusLost            * silent! lua require('scrollbar').clear()
+augroup end
 
 " Nerdtree
 map <F3> :NERDTreeMirror<CR>:NERDTreeToggle<CR>
