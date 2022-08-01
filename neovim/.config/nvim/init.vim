@@ -58,7 +58,9 @@ Plug 'haya14busa/incsearch.vim'
 Plug 'pablopunk/persistent-undo.vim'
 Plug 'christianrondeau/vim-base64'
 Plug 'farmergreg/vim-lastplace'
-Plug 'ojroques/vim-oscyank'
+if !has('wsl')
+      Plug 'ojroques/vim-oscyank'
+endif
 
 " Code style
 Plug 'tpope/vim-commentary'
@@ -318,7 +320,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
     underline = true,
     virtual_text = {
-        prefix = "🗲 ",
+        prefix = (vim.loop.os_uname()['release']:lower():match('microsoft')) and "! " or "🗲 ",
     },
     signs = true,
     update_in_insert = false,
@@ -360,8 +362,12 @@ nnoremap <silent> <F2>    <cmd>lua vim.lsp.buf.rename()<CR>
 
 " Visualize diagnostics
 let g:diagnostic_enable_virtual_text = 1
-let g:diagnostic_trimmed_virtual_text = '80'
-let g:diagnostic_virtual_text_prefix = '🗲 '
+let g:diagnostic_trimmed_virtual_text = '120'
+if has('wsl')
+      let g:diagnostic_virtual_text_prefix = '! '
+else
+      let g:diagnostic_virtual_text_prefix = '🗲 '
+endif
 " Don't show diagnostics while in insert mode
 let g:diagnostic_insert_delay = 1
 
@@ -370,30 +376,47 @@ nnoremap <silent> dN <cmd>vim.lsp.diagnostic.goto_prev()<cr>
 nnoremap <silent> dn <cmd>vim.lsp.diagnostic.goto_next()<cr>
 
 " Enable type inlay hints
-autocmd FileType rust autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
-\ lua require'lsp_extensions'.inlay_hints{ prefix = ' ⪢  ', highlight = "Comment" }
+if !has('wsl')
+      autocmd FileType rust autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
+      \ lua require'lsp_extensions'.inlay_hints{ prefix = ' ⪢  ', highlight = "Comment" }
+endif
 
 
 " OSC52 copy sequence
-function! s:ocs_yd(monika)
-  " detect empty lines and do not put into register/clipboard
-  let r = getline('.')
-  if r =~ '^\s*$'
-    if a:monika
-      return "\"_dd"
-    else
-      return "\"+yy"
-    endif
-  else
-    return "\"+yy:OSCYankReg +\n" . (a:monika ? "\"_dd" : "")
-  endif
-endfunction
-
-nnoremap <silent><expr> dd <SID>ocs_yd(1)
+if has('wsl')
+    let g:clipboard = {
+          \   'name': 'wslclipboard',
+          \   'copy': {
+          \      '+': '/usr/local/bin/win32yank.exe -i --crlf',
+          \      '*': '/usr/local/bin/win32yank.exe -i --crlf',
+          \    },
+          \   'paste': {
+          \      '+': '/usr/local/bin/win32yank.exe -o --lf',
+          \      '*': '/usr/local/bin/win32yank.exe -o --lf',
+          \   },
+          \   'cache_enabled': 1,
+          \ }
+else
+      function! s:ocs_yd(monika)
+      " detect empty lines and do not put into register/clipboard
+            let r = getline('.')
+            if r =~ '^\s*$'
+            if a:monika
+                  return "\"_dd"
+            else
+                  return "\"+yy"
+            endif
+            else
+                  return "\"+yy:OSCYankReg +\n" . (a:monika ? "\"_dd" : "")
+            endif
+      endfunction
+      nnoremap <silent><expr> dd <SID>ocs_yd(1)
+      nnoremap <silent><expr> yy <SID>ocs_yd(0)
+      xnoremap y "+y:OSCYankReg +<CR>
+      xnoremap d "+d:OSCYankReg +<CR>
+endif
 nmap X dd
-nnoremap <silent><expr> yy <SID>ocs_yd(0)
-xnoremap y "+y:OSCYankReg +<CR>
-xnoremap d "+d:OSCYankReg +<CR>
+
 
 " vim-cutlass, but better and DIY
 " delete a single char
