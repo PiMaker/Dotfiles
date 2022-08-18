@@ -42,6 +42,13 @@ set nofixendofline
 set undofile
 set undodir=~/.config/nvim/undo
 
+let wsl_compat=0
+if has('wsl')
+      let wsl_compat=1
+elseif $WSL_COMPAT == "1"
+      let wsl_compat=1
+endif
+
 " Plug config (Plugin list)
 call plug#begin()
 
@@ -325,7 +332,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
     underline = true,
     virtual_text = {
-        prefix = (vim.loop.os_uname()['release']:lower():match('microsoft')) and "! " or "🗲 ",
+        prefix = (vim.loop.os_uname()['release']:lower():match('microsoft') or vim.env.WSL_COMPAT) and "! " or "🗲 ",
     },
     signs = true,
     update_in_insert = false,
@@ -376,9 +383,8 @@ nnoremap <silent> <F2>    <cmd>lua vim.lsp.buf.rename()<CR>
 " Visualize diagnostics
 let g:diagnostic_enable_virtual_text = 1
 let g:diagnostic_trimmed_virtual_text = '120'
-if has('wsl')
-      let g:diagnostic_virtual_text_prefix = '! '
-else
+let g:diagnostic_virtual_text_prefix = '! '
+if !wsl_compat
       let g:diagnostic_virtual_text_prefix = '🗲 '
 endif
 " Don't show diagnostics while in insert mode
@@ -389,7 +395,7 @@ nnoremap <silent> dN <cmd>vim.lsp.diagnostic.goto_prev()<cr>
 nnoremap <silent> dn <cmd>vim.lsp.diagnostic.goto_next()<cr>
 
 " Enable type inlay hints
-if !has('wsl')
+if !wsl_compat
       autocmd FileType rust autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *
       \ lua require'lsp_extensions'.inlay_hints{ prefix = ' ⪢  ', highlight = "Comment" }
 endif
