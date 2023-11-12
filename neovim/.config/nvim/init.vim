@@ -553,9 +553,9 @@ colorscheme eighties
 let g:rainbow_active = 1
 
 " 80 cols
-set colorcolumn=120
-set textwidth=120
-execute "set colorcolumn=" . join(range(121,400), ',')
+" set colorcolumn=120
+" set textwidth=120
+" execute "set colorcolumn=" . join(range(121,400), ',')
 
 " Don't auto-insert comment header on newline, and don't auto-wrap long lines
 au FileType * set fo-=r fo-=o fo+=l
