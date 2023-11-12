@@ -115,7 +115,7 @@ Plug 'ms-jpq/coq.thirdparty', {'branch': '3p'}
 Plug 'nvim-lua/plenary.nvim'
 Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
 
-Plug 'ludovicchabant/vim-gutentags'
+" Plug 'ludovicchabant/vim-gutentags'
 
 " Tools
 Plug 'junegunn/fzf'
