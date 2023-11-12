@@ -2,6 +2,8 @@
 export ZSH="$HOME/.oh-my-zsh"
 export DISABLE_AUTO_UPDATE=true
 
+export WSL_COMPAT=1
+
 # Fix annoying error when running as root
 ZSH_DISABLE_COMPFIX="true"
 

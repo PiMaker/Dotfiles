@@ -27,7 +27,6 @@ set nobackup
 set nowb
 set updatetime=250             " Update stuff after 250ms (default 4000)
 set visualbell                 " No beeps plz
-set clipboard^=unnamedplus     " Use clipboard register (+) as default
 set title                      " Change terminal title
 set history=1000               " Remember more commands and search history
 set undolevels=1000            " Remember more undos
@@ -47,6 +46,10 @@ if has('wsl')
       let wsl_compat=1
 elseif $WSL_COMPAT == "1"
       let wsl_compat=1
+endif
+
+if !wsl_compat
+      set clipboard^=unnamedplus     " Use clipboard register (+) as default
 endif
 
 " Plug config (Plugin list)
@@ -137,7 +140,7 @@ source $HOME/.config/nvim/starsearch.vim
 let mapleader = "\<space>"
 
 " Disable Copilot by default
-let g:copilot_enabled = 0
+let g:copilot_enabled = 1
 
 " FZF (+preview) binding
 let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs'
@@ -260,6 +263,7 @@ xnoremap <A-k> :m '<-2<CR>gv=gv
 " GitGutter hunk movement
 nmap <Leader>hn <Plug>(GitGutterNextHunk)
 nmap <Leader>hN <Plug>(GitGutterPrevHunk)
+nmap <Leader>hm /^\<\<\<\<\<\<\< HEAD<CR>
 
 " Disable weird command window when quickly pressing q: instead of :q
 nnoremap q: :
@@ -415,6 +419,25 @@ if has('wsl')
           \   },
           \   'cache_enabled': 1,
           \ }
+elseif wsl_compat
+      function! s:ocs_yd(monika)
+      " detect empty lines and do not put into register/clipboard
+            let r = getline('.')
+            if r =~ '^\s*$'
+            if a:monika
+                  return "\"_dd"
+            else
+                  return "\"ayy"
+            endif
+            else
+                  return "\"ayy:OSCYankReg a\n" . (a:monika ? "\"_dd" : "")
+            endif
+      endfunction
+      nnoremap <silent><expr> dd <SID>ocs_yd(1)
+      nnoremap <silent><expr> yy <SID>ocs_yd(0)
+      xnoremap y "ay:OSCYankReg +<CR>
+      xnoremap d "ad:OSCYankReg +<CR>
+
 else
       function! s:ocs_yd(monika)
       " detect empty lines and do not put into register/clipboard
