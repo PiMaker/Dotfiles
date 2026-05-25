@@ -108,9 +108,9 @@ Plug 'neovim/nvim-lspconfig'
 " Plug 'tjdevries/lsp_extensions.nvim'
 " Autocompletion framework for built-in LSP
 " Plug 'nvim-lua/completion-nvim'
-Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
-Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
-Plug 'ms-jpq/coq.thirdparty', {'branch': '3p'}
+"Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+"Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
+"Plug 'ms-jpq/coq.thirdparty', {'branch': '3p'}
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
@@ -309,41 +309,41 @@ let g:completion_enable_snippet = 'vim-vsnip'
 let g:completion_trigger_on_delete = 1
 
 " 🐓 Coq completion settings
-let g:coq_settings = { 'auto_start': 'shut-up', "keymap.recommended": v:false }
+" let g:coq_settings = { 'auto_start': 'shut-up', "keymap.recommended": v:false }
 
 " Configure LSP
 " https://github.com/neovim/nvim-lspconfig#rust_analyzer
-lua <<EOF
-
--- lspconfig object
-local nvim_lsp = require'lspconfig'
-local coq = require'coq'
-
-local on_attach_js = function(client)
-    require('nvim-lsp-ts-utils').setup({
-        filter_out_diagnostics_by_code = { 80001 },
-    })
-    require('nvim-lsp-ts-utils').setup_client(client)
-end
-
--- Enable rust_analyzer and ccls
-nvim_lsp.rust_analyzer.setup(coq.lsp_ensure_capabilities())
-nvim_lsp.ccls.setup(coq.lsp_ensure_capabilities())
-nvim_lsp.tsserver.setup(coq.lsp_ensure_capabilities({ on_attach=on_attach_js }))
-
--- Diagnostics config
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    underline = true,
-    virtual_text = {
-        prefix = (vim.loop.os_uname()['release']:lower():match('microsoft') or vim.env.WSL_COMPAT) and "! " or "🗲 ",
-    },
-    signs = true,
-    update_in_insert = false,
-  }
-)
-
-EOF
+" lua <<EOF
+" 
+" -- lspconfig object
+" local nvim_lsp = require'lspconfig'
+" local coq = require'coq'
+" 
+" local on_attach_js = function(client)
+"     require('nvim-lsp-ts-utils').setup({
+"         filter_out_diagnostics_by_code = { 80001 },
+"     })
+"     require('nvim-lsp-ts-utils').setup_client(client)
+" end
+" 
+" -- Enable rust_analyzer and ccls
+" nvim_lsp.rust_analyzer.setup(coq.lsp_ensure_capabilities())
+" nvim_lsp.ccls.setup(coq.lsp_ensure_capabilities())
+" nvim_lsp.tsserver.setup(coq.lsp_ensure_capabilities({ on_attach=on_attach_js }))
+" 
+" -- Diagnostics config
+" vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+"   vim.lsp.diagnostic.on_publish_diagnostics, {
+"     underline = true,
+"     virtual_text = {
+"         prefix = (vim.loop.os_uname()['release']:lower():match('microsoft') or vim.env.WSL_COMPAT) and "! " or "🗲 ",
+"     },
+"     signs = true,
+"     update_in_insert = false,
+"   }
+" )
+" 
+" EOF
 
 " Setup sources
 let g:completion_chain_complete_list = {
@@ -363,12 +363,12 @@ let g:completion_chain_complete_list = {
 let g:completion_matching_strategy_list = ['exact', 'fuzzy']
 
 " Coq Keybindings
-ino <silent><expr> <Esc>   pumvisible() ? "\<C-e><Esc>" : "\<Esc>"
-ino <silent><expr> <C-c>   pumvisible() ? "\<C-e><C-c>" : "\<C-c>"
-ino <silent><expr> <BS>    pumvisible() ? "\<C-e><BS>"  : "\<BS>"
-ino <silent><expr> <CR>    pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"
-ino <silent><expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-ino <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<BS>"
+" ino <silent><expr> <Esc>   pumvisible() ? "\<C-e><Esc>" : "\<Esc>"
+" ino <silent><expr> <C-c>   pumvisible() ? "\<C-e><C-c>" : "\<C-c>"
+" ino <silent><expr> <BS>    pumvisible() ? "\<C-e><BS>"  : "\<BS>"
+" ino <silent><expr> <CR>    pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"
+" ino <silent><expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+" ino <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<BS>"
 
 " Code navigation shortcuts
 au FileType rust nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
