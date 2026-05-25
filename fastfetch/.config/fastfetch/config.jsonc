@@ -1,0 +1,32 @@
+{
+    "logo": {
+        "type": "none"
+    },
+    "display": {
+        "separator": ":",
+        "key": {
+            "width": 12,
+            "type": "string"
+        },
+        "color": {
+            "keys": "color8",
+            "title": "color6"
+        }
+    },
+    "modules": [
+        "title",
+        "separator",
+        {
+            "type": "kernel",
+            "key": "Kernel"
+        },
+        {
+            "type": "memory",
+            "key": "Memory"
+        },
+        {
+            "type": "localip",
+            "key": "Local IP"
+        }
+    ]
+}
