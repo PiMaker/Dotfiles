@@ -21,7 +21,7 @@ nvim: stow
 
 	# auto-install and upgrade vim-plug plugins (this sometimes fails, just
 	# try again if it does...)
-	nvim -Es -u $(HOME)/.config/nvim/init.vim -c PlugInstall -c PlugUpgrade -c PlugUpdate -c qa
+	nvim -c PlugInstall -c PlugUpgrade -c PlugUpdate -c qa
 
 zsh-plugins: stow
 	zsh ./install-zsh-plugins.zsh
