@@ -8,10 +8,6 @@
             "width": 12,
             "type": "string"
         },
-        "color": {
-            "keys": "color8",
-            "title": "color6"
-        }
     },
     "modules": [
         "title",
