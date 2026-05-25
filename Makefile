@@ -14,7 +14,6 @@ default: nvim zsh-plugins
 
 stow:
 	stow -v -S $(STOWS)
-	chmod 0600 ../.config/nvim/remote-clip.key
 
 nvim: stow
 	curl -fLo "$${XDG_DATA_HOME:-$$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
